@@ -17,9 +17,8 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 #Tags
 
 
-<div id="partial">
+<div id="partial"></div>
 ##Partials: `{{partial}}`
-</div>
 
 Include an other file using: `{{partial: path/to/component.html}}`
 
