@@ -14,6 +14,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [note](#note)
 * [opt](#opt)
 * [toggle](#toggle)
+* [identifier](#identifier)
 
 
 ##[Attributes](#attributes)
@@ -49,7 +50,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 Include an other file using: `{{partial: path/to/component.html}}`
 
-Attributes: `hidden`
+Attributes: [`hidden`](hidden)
 
 
 <a name="input" />
@@ -137,7 +138,7 @@ Attributes: `max`, `min`, `len`, `radio` ,`required`, `hidden`
 Attributes: `hidden`
 
 
-<a name="ida" />
+<a name="identifier" />
 ##IDs: `{{#id}}`
 
 You can assign every element to an ID. This is done by adding a `#` + a name to an element e.g. `{{input #name}}`.
