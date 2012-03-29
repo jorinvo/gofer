@@ -5,18 +5,18 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 ##[Tags](#tags)
 
-* [partial](#partial)
+* [#id](#identifier)
 * [input](#input)
 * [text](#text)
-* [list](#list)
-* [img](#img)
 * [link](#link)
+* [img](#img)
 * [file](#file)
 * [files](#files)
-* [note](#note)
 * [opt](#opt)
 * [toggle](#toggle)
-* [#id](#identifier)
+* [list](#list)
+* [note](#note)
+* [partial](#partial)
 
 
 
@@ -52,10 +52,10 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 
 
-<a name="partial" />
-##Partial: `{{partial}}`
+<a name="identifier" />
+##ID: `{{#id}}`
 
-Include an other file using: `{{partial: path/to/component.html}}`
+You can assign every element to an ID. This is done by adding a `#` + a name to an element e.g. `{{input #name}}`.
 
 Attributes: [`hidden`](#hidden), [`js`](#js)
 
@@ -66,7 +66,7 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 User can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
 
-Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
 
 
 
@@ -75,33 +75,7 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
 
 User has a rich text-editor to edit a hole block of content. Create it like `<p>{{text}}</p>`. Text-editor includes bold, italic, cursiv, underlined, link, lists and line-breaks.
 
-Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
-
-
-
-<a name="list" />
-##List: `{{list}}`
-
-Make a list of items.
-You can add new items to list and reorder them via drag & drop.
-
-* Define a template inline: `{{list}}template goes here{{/list}}`
-* Use a file as template: `{{list: ./path/to/file.html}}`
-
-Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`required`](#required), [`hidden`](#hidden), [`js`](#js)
-
-
-
-<a name="img" />
-##Image: `{{img}}`
-
-Define an image with `{{img}}`.
-Optional you can pass HTML-Attributes like `{{img id="" class="" alt=""}}`.
-When you click this element you can upload an image and refer to its URL by defining an ID-attribute: `{{img #myImage}}`.
-The menu to select an image lets you upload an image and, as long as not set before, lets you specify the alt-attribute.
-An other way to upload an image is by dropping it onto the element.
-
-Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
 
 
 
@@ -109,16 +83,29 @@ Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`js`
 ##Link: `{{link}}`
 
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
-If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can define the displayed text also inside the menu.
+If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can define the displayed text and the title also inside the menu.
 
 Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+
+
+
+<a name="img" />
+##Image: `{{img}}`
+
+Define an image with `{{img}}`.
+Optional you can pass HTML-Attributes like `{{img id="" class="" alt=""`title=""}}`.
+When you click this element you can upload an image and refer to its `path` by defining an ID-attribute: `{{img #myImage}}`.
+The menu to select an image lets you upload an image and, as long as not set before, lets you specify the alt-&title-attributes.
+An other way to upload an image is by dropping it onto the element.
+
+Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
 
 
 
 <a name="file" />
 ##File: `{{file}}`
 
-Specify an element using `{{file}}<element></element>{{/file}}`. When you click this element you can upload a file and refer to its URL by defining an ID-attribute: `{{file #myFile}}`.
+Specify an element using `{{file}}<element></element>{{/file}}`. When you click this element you can upload a file and refer to its `path` by defining an ID-attribute: `{{file #myFile}}`.
 You can upload a file by selecting one in the menu or by dropping it onto the element.
 
 
@@ -132,7 +119,7 @@ Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js
 Create a multi-file-uploder with `{{files #id}}`. Uploader also supports drag & drop.
 
 
-Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+Attributes: [`path`](#path) , [`required`](#required), [`js`](#js)
 
 
 
@@ -157,12 +144,16 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 
 
-<a name="identifier" />
-##ID: `{{#id}}`
+<a name="list" />
+##List: `{{list}}`
 
-You can assign every element to an ID. This is done by adding a `#` + a name to an element e.g. `{{input #name}}`.
+Make a list of items.
+You can add new items to the list and reorder them via drag & drop.
 
-Attributes: [`hidden`](#hidden), [`js`](#js)
+* Define a template inline: `{{list}}template goes here{{/list}}`
+* Use a file as template: `{{list: ./path/to/file.html}}`
+
+Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
 
 
 
@@ -171,6 +162,13 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 Notes are only visible in editing-mode. They can be used to display instructions to your client about how to edit the page.
 `{{note}}some blah blah{{/note}}`
+
+
+
+<a name="partial" />
+##Partial: `{{partial}}`
+
+Include an other file using: `{{partial: path/to/component.html}}`
 
 
 
@@ -185,12 +183,14 @@ Notes are only visible in editing-mode. They can be used to display instructions
 
 Using the `js`-attribute you can specify a function. Gofer searchs for the function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
 
-Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
+Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
 
 
 
 <a name="desc" />
 ##`desc:`
+
+Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle)
 
 
 
@@ -199,7 +199,7 @@ Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list)
 
 Use `hidden` when you want the user to give you information through a tag without that the information is displayed at this place.
 
-Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
+Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
 
 
 
