@@ -192,7 +192,7 @@ Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [
 
 Create a `note`-element which describes the given element. Use it like `{{input note: 'Enter your name here'}}`. Since this note is related to an element Gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
 
-Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle)
+Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
 
 
 
@@ -201,7 +201,7 @@ Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`file
 
 Use `hidden` when you want the user to give you information through a tag without that the information is displayed at this place.
 
-Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
+Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
 
 
 
@@ -210,7 +210,7 @@ Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link
 
 Tags marked with `required` have to contain some information, otherwise the page can't be updated.
 
-Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt)
+Tags: [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`list`](#list)
 
 
 
@@ -219,7 +219,7 @@ Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link
 
 Define a maximum required size the user has to create or select.
 
-Tags: [`list`](#list), [`opt`](#opt)
+Tags: [`opt`](#opt), [`list`](#list)
 
 
 
@@ -228,7 +228,7 @@ Tags: [`list`](#list), [`opt`](#opt)
 
 Define a minimum required size the user has to create or select.
 
-Tags: [`list`](#list), [`opt`](#opt)
+Tags: [`opt`](#opt), [`list`](#list)
 
 
 
@@ -237,7 +237,7 @@ Tags: [`list`](#list), [`opt`](#opt)
 
 Define the required size the user has to create or select. Is a shortcode for setting `max` and `min` to the same value.
 
-Tags: [`list`](#list), [`opt`](#opt)
+Tags: [`opt`](#opt), [`list`](#list)
 
 
 
