@@ -22,7 +22,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 ##[Attributes](#attributes)
 
-* [js](#js)
+* [mix](#mix)
 * [note](#note)
 * [hidden](#hidden)
 * [required](#required)
@@ -57,7 +57,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 You can assign every element to an ID. This is done by adding a `#` + a name to an element e.g. `{{input #name}}`.
 
-Attributes: [`hidden`](#hidden), [`js`](#js)
+Attributes: [`hidden`](#hidden), [`mix`](#mix)
 
 
 
@@ -66,7 +66,7 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 User can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
 
-Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
+Attributes: [`required`](#required), [`hidden`](#hidden), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -75,7 +75,7 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](
 
 User has a rich text-editor to edit a hole block of content. Create it like `<p>{{text}}</p>`. Text-editor includes bold, italic, cursiv, underlined, link, lists and line-breaks.
 
-Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
+Attributes: [`required`](#required), [`hidden`](#hidden), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -85,7 +85,7 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
 If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can define the displayed text and the title also inside the menu.
 
-Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+Attributes: [`required`](#required), [`hidden`](#hidden), [`mix`](#mix)
 
 
 
@@ -93,12 +93,12 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
 ##Image: `{{img}}`
 
 Define an image with `{{img}}`.
-Optional you can pass HTML-Attributes like `{{img id="" class="" alt=""`title=""}}`.
+Optional you can pass HTML-Attributes like `{{img id="" class="" alt="" title=""}}`.
 When you click this element you can upload an image and refer to its `path` by defining an ID-attribute: `{{img #myImage}}`.
 The menu to select an image lets you upload an image and, as long as not set before, lets you specify the alt-&title-attributes.
 An other way to upload an image is by dropping it onto the element.
 
-Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
+Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -109,7 +109,7 @@ Specify an element using `{{file}}<element></element>{{/file}}`. When you click 
 You can upload a file by selecting one in the menu or by dropping it onto the element.
 
 
-Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
+Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -119,7 +119,7 @@ Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js
 Create a multi-file-uploder with `{{files #id}}`. Uploader also supports drag & drop.
 
 
-Attributes: [`path`](#path) , [`required`](#required), [`js`](#js), [`note`](#note)
+Attributes: [`path`](#path) , [`required`](#required), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -131,7 +131,7 @@ By using the tag as wrapper e.g. `{{opt: []}}placeholder{{/opt}}` clicking the p
 The `opt`-tag needs an array of options which is specified like `{{opt: ['option1', 'option2']}}`.
 Using the `optn`-tag only makes sense with a defined ID otherwise the options are unreachable.
 
-Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`radio`](#radio), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
+Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`radio`](#radio), [`required`](#required), [`hidden`](#hidden), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -140,7 +140,7 @@ Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`radio`](#radio), [`re
 
 `{{toggle #name}}` does the same as `{{option: [true, false] radio #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
-Attributes: [`hidden`](#hidden), [`js`](#js), [`note`](#note)
+Attributes: [`hidden`](#hidden), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -153,7 +153,7 @@ You can add new items to the list and reorder them via drag & drop.
 * Define a template inline: `{{list}}template goes here{{/list}}`
 * Use a file as template: `{{list: ./path/to/file.html}}`
 
-Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
+Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`required`](#required), [`hidden`](#hidden), [`mix`](#mix), [`note`](#note)
 
 
 
@@ -178,12 +178,12 @@ Include an other file using: `{{partial: path/to/component.html}}`
 
 
 
-<a name="js" />
-##`js:`
+<a name="mix" />
+##`mix:`
 
-Using the `js`-attribute you can specify a function. Gofer searchs for the function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
+Using the `mix`-attribute you can specify a function. Gofer searchs for the function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
 
-Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
+Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
 
 
 
