@@ -2,6 +2,8 @@
 Gofer helps you to build a WYSIWYG-backend for your clients so that they can edit the content of their website. Gofer targets static one-page websites where a person without any programming knowledge should be able to change same parts of the page.
 
 
+-------------------------------
+
 
 ##[Tags](#tags)
 
@@ -33,6 +35,8 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [note](#note)
 
 
+-----------------------------------
+
 
 ##Features
 * Easy to get started
@@ -44,6 +48,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * Realworld examples
 
 
+------------------------------------
 
 
 <a name="tags" />
