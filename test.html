@@ -1,0 +1,111 @@
+<div id="container">
+
+  <div id="head">
+    <img src="img/start.jpg" alt="ARIANE KOCH -Bilder+Objekte" width="1017px">
+  </div>
+  <nav id="nav">
+    <ul>
+      <li>
+        <a href="#head"><img src="img/home.png" alt=""></a>
+      {{#gallery}}
+      <li>
+        <a href="#{{el js: normalize}}">{{el}}</a>a>
+      {{/gallery}}
+      <li>
+        <a href="#vita">Vita</a>
+      <li>
+        <a href="#news">News</a>
+      <li>
+        <a href="#contact">Kontakt</a>
+      <li>
+        <a href="#links">Links</a>
+    </ul>
+  </nav>
+
+  {{list: ./gallery.html}}
+  {{partial: ./about.html}}
+  {{partial: ./news.html}}
+  {{partial: ./contact.html}}
+  {{partial: ./links.html}}
+
+  <p id="copy">
+    &copy; 2012 Ariane Koch | <a href="#impressum" id="impressumLink">Impressum</a>
+  </p>
+
+</div><!--END #container -->
+
+
+
+<!-- ./about.html -->
+<article id="about">
+  {{img}}
+  <p>{{textarea}}</p>
+  <br>
+  <span>{{input}}</span>
+  <div class="end"></div>
+</article>
+
+
+<!-- ./gallery.html -->
+{{list}}
+<article id="{{@gallery js: normalize}}">
+  {{input #gallery required hidden}}
+  {{list}}
+  <div class="imgFrame">
+    <div class="bigImg">
+      <img src="" alt="">
+    </div>
+    {{file js: bigImg required}}
+      {{img js: smallImg required class="smallImg"}}
+    {{/file}}
+  </div>
+  {{/list}}
+  <p class="stripes-text">{{input}}</p>
+  <div class="end"></div>
+</article>
+{{/list}}
+
+
+<!-- ./vita.html -->
+<article id="vita">
+  {{list}}
+  <table>
+    <tr>
+      <th colspan="2">{{input}}</th>
+    </tr>
+    {{list}}
+    <tr>
+      <td>{{input}}</td>
+      <td>{{textarea}}</td>
+    </tr>
+    {{/list}}
+  </table>
+  {{/list}}
+</article>
+
+
+<!-- ./news.html -->
+<article id="news">
+  <div id="atilier-img">
+    <div>
+      <h1>T&auml;glich frische Kunst</h1>
+    </div>
+  </div>
+  <p>{{textarea}}</p>
+</article>
+
+
+<!-- ./links.html -->
+<div id="links">
+  {{list}}
+    {{toggle #under_construction}}
+      {{link target="_blank"}}
+        {{#under_construction}}
+        <div class="under-construction">Wird im Moment leider umgebaut</div>
+        {{/under_construction}}
+        {{img}}
+        {{input}}
+      {{/link}}
+    {{/toggle}}
+  {{/list}}
+</div>
