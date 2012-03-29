@@ -12,6 +12,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [img](#img)
 * [link](#link)
 * [file](#file)
+* [files](#files)
 * [note](#note)
 * [opt](#opt)
 * [toggle](#toggle)
@@ -52,7 +53,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 
 <a name="partial" />
-##Partials: `{{partial}}`
+##Partial: `{{partial}}`
 
 Include an other file using: `{{partial: path/to/component.html}}`
 
@@ -61,7 +62,7 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 
 <a name="input" />
-##One-line text: `{{input}}`
+##One-line Text: `{{input}}`
 
 User can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
 
@@ -70,7 +71,7 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
 
 
 <a name="text" />
-##Multi-line text: `{{text}}`
+##Multi-line Text: `{{text}}`
 
 User has a rich text-editor to edit a hole block of content. Create it like `<p>{{text}}</p>`. Text-editor includes bold, italic, cursiv, underlined, link, lists and line-breaks.
 
@@ -79,7 +80,7 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
 
 
 <a name="list" />
-##Lists: `{{list}}`
+##List: `{{list}}`
 
 Make a list of items.
 You can add new items to list and reorder them via drag & drop.
@@ -92,7 +93,7 @@ Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`required`](#required)
 
 
 <a name="img" />
-##Images: `{{img}}`
+##Image: `{{img}}`
 
 Define an image with `{{img}}`.
 Optional you can pass HTML-Attributes like `{{img id="" class="" alt=""}}`.
@@ -105,7 +106,7 @@ Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`js`
 
 
 <a name="link" />
-##Links: `{{link}}`
+##Link: `{{link}}`
 
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
 If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can define the displayed text also inside the menu.
@@ -115,18 +116,28 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js)
 
 
 <a name="file" />
-##Files: `{{file}}`
+##File: `{{file}}`
 
 Specify an element using `{{file}}<element></element>{{/file}}`. When you click this element you can upload a file and refer to its URL by defining an ID-attribute: `{{file #myFile}}`.
 You can upload a file by selecting one in the menu or by dropping it onto the element.
 
 
-Attributes: [`path`](#path) ,[`required`](#required), [`hidden`](#hidden), [`js`](#js)
+Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+
+
+
+<a name="files" />
+##Files: `{{files}}`
+
+Create a multi-file-uploder with `{{files #id}}`. Uploader also supports drag & drop.
+
+
+Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js`](#js)
 
 
 
 <a name="opt" />
-##Options: `{{opt}}`
+##Option: `{{opt}}`
 
 With the `opt`-tag the user can select between diffrent options the programmer can use to customize the page.
 By using the tag as wrapper e.g. `{{opt: []}}placeholder{{/opt}}` clicking the placeholder element will show the option-menu.
@@ -138,7 +149,7 @@ Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`radio`](#radio), [`re
 
 
 <a name="toggle" />
-##Toggles: `{{toggle}}`
+##Toggle: `{{toggle}}`
 
 `{{toggle #name}}` does the same as `{{option: [true, false] radio #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
@@ -147,7 +158,7 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 
 <a name="identifier" />
-##IDs: `{{#id}}`
+##ID: `{{#id}}`
 
 You can assign every element to an ID. This is done by adding a `#` + a name to an element e.g. `{{input #name}}`.
 
@@ -156,7 +167,7 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 
 <a name="note" />
-##Notes: `{{note}}`
+##Note: `{{note}}`
 
 Notes are only visible in editing-mode. They can be used to display instructions to your client about how to edit the page.
 `{{note}}some blah blah{{/note}}`
@@ -174,7 +185,7 @@ Notes are only visible in editing-mode. They can be used to display instructions
 
 Using the `js`-attribute you can specify a function. Gofer searchs for the function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
 
-Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
+Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
 
 
 
@@ -188,7 +199,7 @@ Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list)
 
 Use `hidden` when you want the user to give you information through a tag without that the information is displayed at this place.
 
-Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
+Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
 
 
 
@@ -197,7 +208,7 @@ Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list)
 
 Tags marked with `required` have to contain some information, otherwise the page can't be updated.
 
-Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`opt`](#opt)
+Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`files`](#files), [`opt`](#opt)
 
 
 
@@ -242,4 +253,4 @@ Tags: [`opt`](#opt)
 
 Specify a path the given file should be located at on your server.
 
-Tags: [`img`](#img), [`file`](#file)
+Tags: [`img`](#img), [`file`](#file), [`files`](#files)
