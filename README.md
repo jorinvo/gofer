@@ -1,7 +1,8 @@
 #About Gofer
 Gofer helps you to build a WYSIWYG-backend for your clients so that they can edit the content of their website. Gofer targets static one-page websites where a person without any programming knowledge should be able to change same parts of the page.
 
-[parti](#partial)
+[partial](#partial)
+[input](#input)
 
 ##Features
 * Easy to get started
@@ -25,7 +26,7 @@ Include an other file using: `{{partial: path/to/component.html}}`
 Attributes: `hidden`
 
 
-
+<a name="input" />
 ##One-line text: `{{input}}`
 
 User can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
