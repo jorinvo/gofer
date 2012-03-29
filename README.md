@@ -23,7 +23,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 ##[Attributes](#attributes)
 
 * [js](#js)
-* [desc](#desc)
+* [note](#note)
 * [hidden](#hidden)
 * [required](#required)
 * [max](#max)
@@ -66,7 +66,7 @@ Attributes: [`hidden`](#hidden), [`js`](#js)
 
 User can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
 
-Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
+Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
 
 
 
@@ -75,7 +75,7 @@ Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](
 
 User has a rich text-editor to edit a hole block of content. Create it like `<p>{{text}}</p>`. Text-editor includes bold, italic, cursiv, underlined, link, lists and line-breaks.
 
-Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
+Attributes: [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
 
 
 
@@ -98,7 +98,7 @@ When you click this element you can upload an image and refer to its `path` by d
 The menu to select an image lets you upload an image and, as long as not set before, lets you specify the alt-&title-attributes.
 An other way to upload an image is by dropping it onto the element.
 
-Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
+Attributes: [`path`](#path), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
 
 
 
@@ -109,7 +109,7 @@ Specify an element using `{{file}}<element></element>{{/file}}`. When you click 
 You can upload a file by selecting one in the menu or by dropping it onto the element.
 
 
-Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
 
 
 
@@ -119,7 +119,7 @@ Attributes: [`path`](#path) , [`required`](#required), [`hidden`](#hidden), [`js
 Create a multi-file-uploder with `{{files #id}}`. Uploader also supports drag & drop.
 
 
-Attributes: [`path`](#path) , [`required`](#required), [`js`](#js)
+Attributes: [`path`](#path) , [`required`](#required), [`js`](#js), [`note`](#note)
 
 
 
@@ -131,7 +131,7 @@ By using the tag as wrapper e.g. `{{opt: []}}placeholder{{/opt}}` clicking the p
 The `opt`-tag needs an array of options which is specified like `{{opt: ['option1', 'option2']}}`.
 Using the `optn`-tag only makes sense with a defined ID otherwise the options are unreachable.
 
-Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`radio`](#radio), [`required`](#required), [`hidden`](#hidden), [`js`](#js)
+Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`radio`](#radio), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
 
 
 
@@ -140,7 +140,7 @@ Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`radio`](#radio), [`re
 
 `{{toggle #name}}` does the same as `{{option: [true, false] radio #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
-Attributes: [`hidden`](#hidden), [`js`](#js)
+Attributes: [`hidden`](#hidden), [`js`](#js), [`note`](#note)
 
 
 
@@ -153,7 +153,7 @@ You can add new items to the list and reorder them via drag & drop.
 * Define a template inline: `{{list}}template goes here{{/list}}`
 * Use a file as template: `{{list: ./path/to/file.html}}`
 
-Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`desc`](#desc)
+Attributes: [`max`](#max), [`min`](#min), [`len`](#len), [`required`](#required), [`hidden`](#hidden), [`js`](#js), [`note`](#note)
 
 
 
@@ -187,8 +187,10 @@ Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link
 
 
 
-<a name="desc" />
-##`desc:`
+<a name="note" />
+##`note:`
+
+Create a `note`-element which describes the given element. Use it like `{{input note: 'Enter your name here'}}`. Since this note is related to an element Gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
 
 Tags: [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle)
 
