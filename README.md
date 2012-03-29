@@ -1,6 +1,7 @@
 #About Gofer
 Gofer helps you to build a WYSIWYG-backend for your clients so that they can edit the content of their website. Gofer targets static one-page websites where a person without any programming knowledge should be able to change same parts of the page.
 
+[parti](#partial)
 
 ##Features
 * Easy to get started
@@ -16,7 +17,9 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 #Tags
 
 
+<div id="partial">
 ##Partials: `{{partial}}`
+</div>
 
 Include an other file using: `{{partial: path/to/component.html}}`
 
