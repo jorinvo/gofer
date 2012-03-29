@@ -15,7 +15,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [note](#note)
 * [opt](#opt)
 * [toggle](#toggle)
-* [identifier](#identifier)
+* [#id](#identifier)
 
 
 
@@ -172,7 +172,7 @@ Notes are only visible in editing-mode. They can be used to display instructions
 <a name="js" />
 ##`js:`
 
-Using the `js`-attribute you can specify a function. Gofer searchs for the function in the context of your helper-files. When the function exists it gets called with the element as argument and the elements value will be set to the return-value of the function-call.
+Using the `js`-attribute you can specify a function. Gofer searchs for the function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
 
 Tags: [`partial`](#partial), [`input`](#input), [`text`](#text), [`list`](#list), [`img`](#img), [`link`](#link), [`file`](#file), [`opt`](#opt), [`toggle`](#toggle), [`#`](#identifier)
 
