@@ -7,14 +7,15 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 ##[Tags](#tags)
 
-* [#id](#identifier)
+* [#id](#tagId)
 * [input](#input)
 * [text](#text)
 * [link](#link)
 * [img](#img)
 * [file](#file)
 * [files](#files)
-* [opt](#opt)
+* [check](#check)
+* [radio](#radio)
 * [toggle](#toggle)
 * [list](#list)
 * [note](#note)
@@ -24,6 +25,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 ##[Attributes](#attributes)
 
+* [id](#attrId)
 * [mix](#mix)
 * [required](#required)
 * [hidden](#hidden)
@@ -48,6 +50,8 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * Realworld examples
 
 
+
+
 ------------------------------------
 
 
@@ -57,30 +61,45 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 
 
-<a name="identifier" />
+<a name="tagId" />
 ##ID: `{{#id}}`
 
-You can assign every element to an ID. This is done by adding a `#` + a name to an element e.g. `{{input #name}}`.
+The `#id`-tag can be used in three different ways.
+By using it as a standalone tag it returns the values the linked elements evaluate to. For example if you have an `{{input #name}}`-tag at one place in your code, you can insert the value of the element at an other place in your code using `{{#name}}`.
+The `#id''-tag can also be used as a wrapper. The first thing the wrapper does is to decide whether the wrapped content gets displayed or not. This depends on the values of the referenced elements. The wrapper iterates over all elements and decides for each element if it should be displayed or not. It only gets displayed when its value is not empty and is not a javascript falsy value. Inside the loop each item is available as the `el`-tag.
 
-Attributes: [`mix`](#mix), [`hidden`](#hidden)
+Attributes: [`mix`](#mix)
+
+
+
+<a name="el" />
+##Loop-Element: `{{el}}`
+
+The `el`-tag references to the element inside a loop. For more information read ['the section about `#id`'](#tagId).
+
+Attributes: [`mix`](#mix)
 
 
 
 <a name="input" />
 ##One-line Text: `{{input}}`
 
-User can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
+The user can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
 
 Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#note)
+
+Properties: [`content`](#content)
 
 
 
 <a name="text" />
 ##Multi-line Text: `{{text}}`
 
-User has a rich text-editor to edit a hole block of content. Create it like `<p>{{text}}</p>`. Text-editor includes bold, italic, cursiv, underlined, link, lists and line-breaks.
+The user has a rich text-editor to edit a hole block of content. Create it like `<p>{{text}}</p>`. Text-editor includes bold, italic, cursiv, underlined, link, lists and line-breaks.
 
 Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#note)
+
+Properties: [`content`](#content)
 
 
 
@@ -88,9 +107,11 @@ Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`
 ##Link: `{{link}}`
 
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
-If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can define the displayed text and the title also inside the menu.
+If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can also define the displayed text and the title inside the menu.
 
 Attributes: [`mix`](#mix)[`required`](#required), [`hidden`](#hidden)
+
+Properties: [`content`](#content), [`href`](#href), [`title`](#title)
 
 
 
@@ -104,6 +125,8 @@ The menu to select an image lets you upload an image and, as long as not set bef
 An other way to upload an image is by dropping it onto the element.
 
 Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`note`](#note)
+
+Properties: [`title`](#title)
 
 
 
@@ -127,24 +150,28 @@ Attributes: [`mix`](#mix), [`required`](#required), [`path`](#path), [`note`](#n
 
 
 
-<a name="opt" />
-##Option: `{{opt}}`
+<a name="check" />
+##Option: `{{check}}`
 
-With the `opt`-tag the user can select between diffrent options the programmer can use to customize the page.
-By using the tag as wrapper e.g. `{{opt: []}}placeholder{{/opt}}` clicking the placeholder element will show the option-menu.
-The `opt`-tag needs an array of options which is specified like `{{opt: ['option1', 'option2']}}`.
+With the `check`-tag the user can select between diffrent options the programmer can use to customize the page.
+By using the tag as wrapper e.g. `{{check: []}}placeholder{{/check}}` clicking the placeholder element will show the option-menu.
+The `check`-tag needs an array of options which is specified like `{{check: ['option1', 'option2']}}`.
 Using the `optn`-tag only makes sense with a defined ID otherwise the options are unreachable.
 
 Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`radio`](#radio), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#note)
+
+Properties: [`content`](#content), [`yes`](#yes), [`no`](#no), [`all`](#all)
 
 
 
 <a name="toggle" />
 ##Toggle: `{{toggle}}`
 
-`{{toggle #name}}` does the same as `{{option: [true, false] radio #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
+`{{toggle #name}}` does the same as `{{check: [true, false] radio #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
 Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#note)
+
+Properties: [`val`](#val)
 
 
 
@@ -155,9 +182,11 @@ Make a list of items.
 You can add new items to the list and reorder them via drag & drop.
 
 * Define a template inline: `{{list}}template goes here{{/list}}`
-* Use a file as template: `{{list: ./path/to/file.html}}`
+* Use a file as template: `{{list path: ./path/to/file.html}}`
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#note)
+Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#note)
+
+Properties: [`len`](#propLen), [`temp`](#temp)
 
 
 
@@ -175,6 +204,8 @@ Notes are only visible in editing-mode. They can be used to display instructions
 Include an other file using: `{{partial: path/to/component.html}}`
 
 
+
+
 --------------------------------
 
 
@@ -183,12 +214,34 @@ Include an other file using: `{{partial: path/to/component.html}}`
 
 
 
+<a name="content" />
+##`}}content{{`
+
+The content-attribute contains a `STRING` of content which gets rendered in the DOM. This attribute differs from the other attributes since it is the content wrapped between to tags.
+For the `link`-tag the content is only editable when the [`editable`-attribute](#editable) is set and the content of `list` is alway write-only.
+
+
+Tags: [`input`](#input), [`text`](#text), [`link`](#link), [`list`](#list)
+
+
+
+<a name="attrId" />
+##`#id`
+
+You can assign every element to an ID. This is done by adding a `#` + a name to an element e.g. `{{input #name}}`.
+
+Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`check`](#check), [`toggle`](#toggle), [`list`](#list)
+
+
+
 <a name="mix" />
 ##`mix:`
 
-Using the `mix`-attribute you can specify a function. Gofer searchs for the function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
+Using the `mix`-attribute you can specify a function. Gofer searchs for the specified function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
+The element-object the function gets called with differs from element to element, but every element-object contains an attributes-hash called `attr` and the DOM-element representing it as `el`.
+For additional tag-specific properties have a look at the tags.
 
-Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
+Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`check`](#check), [`toggle`](#toggle), [`list`](#list)
 
 
 
@@ -197,7 +250,7 @@ Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [
 
 Tags marked with `required` have to contain some information, otherwise the page can't be updated.
 
-Tags: [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`list`](#list)
+Tags: [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`check`](#check), [`list`](#list)
 
 
 
@@ -206,25 +259,25 @@ Tags: [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file
 
 Use `hidden` when you want the user to give you information through a tag without that the information is displayed at this place.
 
-Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
+Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [`img`](#img), [`file`](#file), [`files`](#files), [`check`](#check), [`toggle`](#toggle), [`list`](#list)
 
 
 
 <a name="path" />
 ##`path:`
 
-Specify a path the given file should be located at on your server.
+Specify a path the given file should be or is located at on your server.
 
-Tags: [`img`](#img), [`file`](#file), [`files`](#files)
+Tags: [`img`](#img), [`file`](#file), [`files`](#files), ['list'](#list)
 
 
 
 <a name="radio" />
 ##`radio`
 
-Treat the options as radiobuttons. One one option can be selected at the same time.
+Treat the options as radiobuttons. Only one option can be selected at the same time.
 
-Tags: [`opt`](#opt)
+Tags: [`check`](#check)
 
 
 
@@ -233,7 +286,7 @@ Tags: [`opt`](#opt)
 
 Define a maximum required size the user has to create or select.
 
-Tags: [`opt`](#opt), [`list`](#list)
+Tags: [`check`](#check), [`list`](#list)
 
 
 
@@ -242,16 +295,16 @@ Tags: [`opt`](#opt), [`list`](#list)
 
 Define a minimum required size the user has to create or select.
 
-Tags: [`opt`](#opt), [`list`](#list)
+Tags: [`check`](#check), [`list`](#list)
 
 
 
 <a name="len" />
 ##`len:`
 
-Define the required size the user has to create or select. Is a shortcode for setting `max` and `min` to the same value.
+Define the required size the user has to create or select. Is a shortcode for setting `max` and `min` to the same value. Use it e.g. `{{list len: 3}}`.  In javascript-mode `len` is read-only and returns the current length of the element.
 
-Tags: [`opt`](#opt), [`list`](#list)
+Tags: [`check`](#check), [`list`](#list)
 
 
 
@@ -264,3 +317,45 @@ Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`file
 
 
 
+<a name="title" />
+##`title`
+
+The `title`-property sets the html-title-attribute and in the case of an `<img>`-tag  it also will be used for the `alt`-attribute. You can predefine it but it stays editable for the user.
+
+Tags: [`link`](#link), [`img`](#img)
+
+
+
+<a name="href" />
+##`href`
+
+The `href`-property sets the html-href-attribute. You can predefine it but it stays editable for the user.
+
+Tags: [`link`](#link)
+
+
+
+<a name="yes" />
+##`yes`
+
+`yes` returns all selected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] yes: ['orange']}}.
+
+Tags: [`check`](#check)
+
+
+
+<a name="no" />
+##`no`
+
+`no` returns all unselected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] no: ['apple', 'banana']}}.
+
+Tags: [`check`](#check)
+
+
+
+<a name="val" />
+##`val`
+
+With `val` you can specify the preselected value of the element. In the case of `toggle` it is only `true` or `false`. In read-mode `val` returns the selected value.
+
+Tags: [`radio`](#radio) , [`toggle`](#toggle)
