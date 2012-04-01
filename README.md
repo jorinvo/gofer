@@ -3,46 +3,62 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 
 -------------------------------
+<table><tr>
+<td>
+
+<h2><a href="#tags">Tags</a></h2>
+
+<ul>
+
+<li><a href="#tagId">#id</a>
+<li><a href="#input">input</a>
+<li><a href="#text">text</a>
+<li><a href="#link">link</a>
+<li><a href="#img">img</a>
+<li><a href="#file">file</a>
+<li><a href="#files">files</a>
+<li><a href="#check">check</a>
+<li><a href="#radio">radio</a>
+<li><a href="#toggle">toggle</a>
+<li><a href="#list">list</a>
+<li><a href="#tagNote">note</a>
+<li><a href="#partial">partial</a>
+
+</ul>
 
 
-##[Tags](#tags)
+</td>
+<td>
 
-* [#id](#tagId)
-* [input](#input)
-* [text](#text)
-* [link](#link)
-* [img](#img)
-* [file](#file)
-* [files](#files)
-* [check](#check)
-* [radio](#radio)
-* [toggle](#toggle)
-* [list](#list)
-* [note](#tagNote)
-* [partial](#partial)
+<h2><a href="#attributes">Attributes</a></h2>
 
+<ul>
 
+<li><a href="#content">content</a>
+<li><a href="#attrId">#id</a>
+<li><a href="#mix">mix</a>
+<li><a href="#required">required</a>
+<li><a href="#hidden">hidden</a>
+<li><a href="#href">href</a>
+<li><a href="#title">title</a>
+<li><a href="#path">path</a>
+<li><a href="#max">max</a>
+<li><a href="#min">min</a>
+<li><a href="#len">len</a>
+<li><a href="#yes">yes</a>
+<li><a href="#no">no</a>
+<li><a href="#val">val</a>
+<li><a href="#attrNote">note</a>
 
-##[Attributes](#attributes)
+</ul>
 
-* [content](#content)
-* [#id](#attrId)
-* [mix](#mix)
-* [required](#required)
-* [hidden](#hidden)
-* [href](#href)
-* [title](#title)
-* [path](#path)
-* [max](#max)
-* [min](#min)
-* [len](#len)
-* [yes](#yes)
-* [no](#no)
-* [val](#val)
-* [note](#attrNote)
+</td>
+</tr></table>
+
 
 
 -----------------------------------
+
 
 
 ##Features
