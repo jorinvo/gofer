@@ -25,12 +25,12 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 ##[Attributes](#attributes)
 
-* [id](#attrId)
+* [content](#content)
+* [#id](#attrId)
 * [mix](#mix)
 * [required](#required)
 * [hidden](#hidden)
 * [path](#path)
-* [radio](#radio)
 * [max](#max)
 * [min](#min)
 * [len](#len)
@@ -151,27 +151,33 @@ Attributes: [`mix`](#mix), [`required`](#required), [`path`](#path), [`note`](#n
 
 
 <a name="check" />
-##Option: `{{check}}`
+##Checkboxes: `{{check:}}`
 
 With the `check`-tag the user can select between diffrent options the programmer can use to customize the page.
 By using the tag as wrapper e.g. `{{check: []}}placeholder{{/check}}` clicking the placeholder element will show the option-menu.
 The `check`-tag needs an array of options which is specified like `{{check: ['option1', 'option2']}}`.
 Using the `optn`-tag only makes sense with a defined ID otherwise the options are unreachable.
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`radio`](#radio), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#note)
+Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#note), [`content`](#content), [`yes`](#yes), [`no`](#no), [`all`](#all)
 
-Properties: [`content`](#content), [`yes`](#yes), [`no`](#no), [`all`](#all)
+
+
+<a name="radio" />
+##Radiobuttons: `{{radio:}}`
+
+Works in the same way `check` does with the different that only one option can be selected.
+`{{radio: ['cookie', 'coke']}}`. Unless `val` is defined the first option is by default selected.
+
+Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#note), [`val`](#val), [`all`](#all)
 
 
 
 <a name="toggle" />
 ##Toggle: `{{toggle}}`
 
-`{{toggle #name}}` does the same as `{{check: [true, false] radio #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
+`{{toggle #name}}` does the same as `{{radio: [true, false] #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
-Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#note)
-
-Properties: [`val`](#val)
+Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#note), [`val`](#val)
 
 
 
@@ -272,15 +278,6 @@ Tags: [`img`](#img), [`file`](#file), [`files`](#files), ['list'](#list)
 
 
 
-<a name="radio" />
-##`radio`
-
-Treat the options as radiobuttons. Only one option can be selected at the same time.
-
-Tags: [`check`](#check)
-
-
-
 <a name="max" />
 ##`max:`
 
@@ -359,3 +356,12 @@ Tags: [`check`](#check)
 With `val` you can specify the preselected value of the element. In the case of `toggle` it is only `true` or `false`. In read-mode `val` returns the selected value.
 
 Tags: [`radio`](#radio) , [`toggle`](#toggle)
+
+
+
+<a name="all" />
+##`all`
+
+`all` is only in mix-mode available. It references to a hash of all options and their `BOOLEAN`-values.
+
+Tags: [`check`](#check), [`radio`](#radio)

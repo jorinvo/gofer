@@ -9,7 +9,7 @@
         <a href="#head"><img src="img/home.png" alt=""></a>
       {{#gallery}}
       <li>
-        <a href="#{{el js: normalize}}">{{el}}</a>a>
+        <a href="#{{el mix: normalize}}">{{el}}</a>a>
       {{/gallery}}
       <li>
         <a href="#vita">Vita</a>
@@ -39,7 +39,7 @@
 <!-- ./about.html -->
 <article id="about">
   {{img}}
-  <p>{{textarea}}</p>
+  <p>{{text}}</p>
   <br>
   <span>{{input}}</span>
   <div class="end"></div>
@@ -48,15 +48,15 @@
 
 <!-- ./gallery.html -->
 {{list}}
-<article id="{{@gallery js: normalize}}">
+<article id="{{@gallery mix: normalize}}">
   {{input #gallery required hidden}}
   {{list}}
   <div class="imgFrame">
     <div class="bigImg">
       <img src="" alt="">
     </div>
-    {{file js: bigImg required}}
-      {{img js: smallImg required class="smallImg"}}
+    {{img mix: bigImg hidden required}}
+      {{img mix: smallImg required class="smallImg"}}
     {{/file}}
   </div>
   {{/list}}
@@ -76,7 +76,7 @@
     {{list}}
     <tr>
       <td>{{input}}</td>
-      <td>{{textarea}}</td>
+      <td>{{text}}</td>
     </tr>
     {{/list}}
   </table>
@@ -91,7 +91,7 @@
       <h1>T&auml;glich frische Kunst</h1>
     </div>
   </div>
-  <p>{{textarea}}</p>
+  <p>{{text}}</p>
 </article>
 
 
