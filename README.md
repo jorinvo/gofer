@@ -18,7 +18,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [radio](#radio)
 * [toggle](#toggle)
 * [list](#list)
-* [note](#note)
+* [note](#tagNote)
 * [partial](#partial)
 
 
@@ -30,11 +30,16 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [mix](#mix)
 * [required](#required)
 * [hidden](#hidden)
+* [href](#href)
+* [title](#title)
 * [path](#path)
 * [max](#max)
 * [min](#min)
 * [len](#len)
-* [note](#note)
+* [yes](#yes)
+* [no](#no)
+* [val](#val)
+* [note](#attrNote)
 
 
 -----------------------------------
@@ -86,9 +91,7 @@ Attributes: [`mix`](#mix)
 
 The user can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#note)
-
-Properties: [`content`](#content)
+Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#attrNote)
 
 
 
@@ -97,9 +100,7 @@ Properties: [`content`](#content)
 
 The user has a rich text-editor to edit a hole block of content. Create it like `<p>{{text}}</p>`. Text-editor includes bold, italic, cursiv, underlined, link, lists and line-breaks.
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#note)
-
-Properties: [`content`](#content)
+Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#attrNote)
 
 
 
@@ -109,9 +110,7 @@ Properties: [`content`](#content)
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
 If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can also define the displayed text and the title inside the menu.
 
-Attributes: [`mix`](#mix)[`required`](#required), [`hidden`](#hidden)
-
-Properties: [`content`](#content), [`href`](#href), [`title`](#title)
+Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`href`](#href), [`title`](#title)
 
 
 
@@ -124,9 +123,7 @@ When you click this element you can upload an image and refer to its `path` by d
 The menu to select an image lets you upload an image and, as long as not set before, lets you specify the alt-&title-attributes.
 An other way to upload an image is by dropping it onto the element.
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`note`](#note)
-
-Properties: [`title`](#title)
+Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`title`](#title), [`path`](#path), [`note`](#attrNote)
 
 
 
@@ -136,7 +133,7 @@ Properties: [`title`](#title)
 Specify an element using `{{file}}<element></element>{{/file}}`. When you click this element you can upload a file and refer to its `path` by defining an ID-attribute: `{{file #myFile}}`.
 You can upload a file by selecting one in the menu or by dropping it onto the element.
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`note`](#note)
+Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`note`](#attrNote)
 
 
 
@@ -146,7 +143,7 @@ Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`
 Create a multi-file-uploder with `{{files #id}}`. Uploader also supports drag & drop.
 
 
-Attributes: [`mix`](#mix), [`required`](#required), [`path`](#path), [`note`](#note)
+Attributes: [`mix`](#mix), [`required`](#required), [`path`](#path), [`note`](#attrNote)
 
 
 
@@ -158,7 +155,7 @@ By using the tag as wrapper e.g. `{{check: []}}placeholder{{/check}}` clicking t
 The `check`-tag needs an array of options which is specified like `{{check: ['option1', 'option2']}}`.
 Using the `optn`-tag only makes sense with a defined ID otherwise the options are unreachable.
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#note), [`content`](#content), [`yes`](#yes), [`no`](#no), [`all`](#all)
+Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#attrNote), [`content`](#content), [`yes`](#yes), [`no`](#no), [`all`](#all)
 
 
 
@@ -168,7 +165,7 @@ Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`]
 Works in the same way `check` does with the different that only one option can be selected.
 `{{radio: ['cookie', 'coke']}}`. Unless `val` is defined the first option is by default selected.
 
-Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#note), [`val`](#val), [`all`](#all)
+Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#attrNote), [`val`](#val), [`all`](#all)
 
 
 
@@ -177,7 +174,7 @@ Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#note), [`val`](#val), 
 
 `{{toggle #name}}` does the same as `{{radio: [true, false] #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
-Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#note), [`val`](#val)
+Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#attrNote), [`val`](#val)
 
 
 
@@ -190,13 +187,11 @@ You can add new items to the list and reorder them via drag & drop.
 * Define a template inline: `{{list}}template goes here{{/list}}`
 * Use a file as template: `{{list path: ./path/to/file.html}}`
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#note)
-
-Properties: [`len`](#propLen), [`temp`](#temp)
+Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#attrNote)
 
 
 
-<a name="note" />
+<a name="tagNote" />
 ##Note: `{{note}}`
 
 Notes are only visible in editing-mode. They can be used to display instructions to your client about how to edit the page.
@@ -271,6 +266,24 @@ Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [
 
 
 
+<a name="title" />
+##`title:`
+
+The `title`-property sets the html-title-attribute and in the case of an `<img>`-tag  it also will be used for the `alt`-attribute. You can predefine it but it stays editable for the user.
+
+Tags: [`link`](#link), [`img`](#img)
+
+
+
+<a name="href" />
+##`href:`
+
+The `href`-property sets the html-href-attribute. You can predefine it but it stays editable for the user.
+
+Tags: [`link`](#link)
+
+
+
 <a name="path" />
 ##`path:`
 
@@ -307,33 +320,6 @@ Tags: [`check`](#check), [`list`](#list)
 
 
 
-<a name="note" />
-##`note:`
-
-Create a `note`-element which describes the given element. Use it like `{{input note: 'Enter your name here'}}`. Since this note is related to an element Gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
-
-Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
-
-
-
-<a name="title" />
-##`title:`
-
-The `title`-property sets the html-title-attribute and in the case of an `<img>`-tag  it also will be used for the `alt`-attribute. You can predefine it but it stays editable for the user.
-
-Tags: [`link`](#link), [`img`](#img)
-
-
-
-<a name="href" />
-##`href:`
-
-The `href`-property sets the html-href-attribute. You can predefine it but it stays editable for the user.
-
-Tags: [`link`](#link)
-
-
-
 <a name="yes" />
 ##`yes:`
 
@@ -358,3 +344,12 @@ Tags: [`check`](#check)
 With `val` you can specify the preselected value of the element. In the case of `toggle` it is only `true` or `false`. In read-mode `val` returns the selected value.
 
 Tags: [`radio`](#radio) , [`toggle`](#toggle)
+
+
+
+<a name="attrNote" />
+##`note:`
+
+Create a `note`-element which describes the given element. Use it like `{{input note: 'Enter your name here'}}`. Since this note is related to an element Gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
+
+Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
