@@ -3,7 +3,8 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 
 -------------------------------
-
+<table><tr>
+<td>
 
 ##[Tags](#tags)
 
@@ -22,6 +23,8 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [partial](#partial)
 
 
+</td>
+<td>
 
 ##[Attributes](#attributes)
 
@@ -41,8 +44,13 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [val](#val)
 * [note](#attrNote)
 
+</td>
+</tr></table>
+
+
 
 -----------------------------------
+
 
 
 ##Features
