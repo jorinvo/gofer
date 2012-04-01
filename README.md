@@ -223,11 +223,13 @@ Include an other file using: `{{partial: path/to/component.html}}`
 <a name="content" />
 ##`}}content{{`
 
-The content-attribute contains a `STRING` of content which gets rendered in the DOM. This attribute differs from the other attributes since it is the content wrapped between to tags.
-For the `link`-tag the content is only editable when the [`editable`-attribute](#editable) is set and the content of `list` is alway write-only.
+The content-attribute contains a `STRING` of content which gets rendered in the DOM. This attribute differs from the other attributes since it is only available in mix-mode.
+For `input`, `text`, `link` and `list` the `content`-attribute belongs to the content wrapped between two tags.
+For the `link`-tag the content is only editable when the [`editable`-attribute](#editable) is enabled.
+The content of `list` is read-only.
+And for `check` and `radio` it references to a hash of all options and their `BOOLEAN`-values.
 
-
-Tags: [`input`](#input), [`text`](#text), [`link`](#link), [`list`](#list)
+Tags: [`input`](#input), [`text`](#text), [`link`](#link), [`list`](#list), [`check`](#check), [`radio`](#radio)
 
 
 
@@ -315,7 +317,7 @@ Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`file
 
 
 <a name="title" />
-##`title`
+##`title:`
 
 The `title`-property sets the html-title-attribute and in the case of an `<img>`-tag  it also will be used for the `alt`-attribute. You can predefine it but it stays editable for the user.
 
@@ -324,7 +326,7 @@ Tags: [`link`](#link), [`img`](#img)
 
 
 <a name="href" />
-##`href`
+##`href:`
 
 The `href`-property sets the html-href-attribute. You can predefine it but it stays editable for the user.
 
@@ -333,7 +335,7 @@ Tags: [`link`](#link)
 
 
 <a name="yes" />
-##`yes`
+##`yes:`
 
 `yes` returns all selected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] yes: ['orange']}}.
 
@@ -342,7 +344,7 @@ Tags: [`check`](#check)
 
 
 <a name="no" />
-##`no`
+##`no:`
 
 `no` returns all unselected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] no: ['apple', 'banana']}}.
 
@@ -351,17 +353,8 @@ Tags: [`check`](#check)
 
 
 <a name="val" />
-##`val`
+##`val:`
 
 With `val` you can specify the preselected value of the element. In the case of `toggle` it is only `true` or `false`. In read-mode `val` returns the selected value.
 
 Tags: [`radio`](#radio) , [`toggle`](#toggle)
-
-
-
-<a name="all" />
-##`all`
-
-`all` is only in mix-mode available. It references to a hash of all options and their `BOOLEAN`-values.
-
-Tags: [`check`](#check), [`radio`](#radio)
