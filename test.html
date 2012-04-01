@@ -9,7 +9,7 @@
         <a href="#head"><img src="img/home.png" alt=""></a>
       {{#gallery}}
       <li>
-        <a href="#{{el mix: normalize}}">{{el}}</a>a>
+        <a href="#{{el mix(normalize)}}">{{el}}</a>a>
       {{/gallery}}
       <li>
         <a href="#vita">Vita</a>
@@ -48,15 +48,15 @@
 
 <!-- ./gallery.html -->
 {{list}}
-<article id="{{@gallery mix: normalize}}">
-  {{input #gallery required hidden}}
+<article id="{{@gallery mix(normalize)}}">
+  {{input #gallery required hidden note(Gallery Titel hier eingeben)}}
   {{list}}
   <div class="imgFrame">
     <div class="bigImg">
       <img src="" alt="">
     </div>
-    {{img mix: bigImg hidden required}}
-      {{img mix: smallImg required class="smallImg"}}
+    {{img mix(bigImg) hidden required}}
+      {{img mix(smallImg) required class="smallImg"}}
     {{/file}}
   </div>
   {{/list}}

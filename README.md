@@ -1,64 +1,49 @@
-#About Gofer
-Gofer helps you to build a WYSIWYG-backend for your clients so that they can edit the content of their website. Gofer targets static one-page websites where a person without any programming knowledge should be able to change same parts of the page.
+#About gofer
+gofer helps you to build a WYSIWYG-backend for your clients so that they can edit the content of their website. gofer targets static one-page websites where a person without any programming knowledge should be able to change same parts of the page.
 
 
 -------------------------------
-<table><tr>
-<td>
-
-<h2><a href="#tags">Tags</a></h2>
-
-<ul>
-
-<li><a href="#tagId">#id</a>
-<li><a href="#input">input</a>
-<li><a href="#text">text</a>
-<li><a href="#link">link</a>
-<li><a href="#img">img</a>
-<li><a href="#file">file</a>
-<li><a href="#files">files</a>
-<li><a href="#check">check</a>
-<li><a href="#radio">radio</a>
-<li><a href="#toggle">toggle</a>
-<li><a href="#list">list</a>
-<li><a href="#tagNote">note</a>
-<li><a href="#partial">partial</a>
-
-</ul>
 
 
-</td>
-<td>
+##[Tags](#tags)
 
-<h2><a href="#attributes">Attributes</a></h2>
+* [#id](#tagId)
+* [input](#input)
+* [text](#text)
+* [link](#link)
+* [img](#img)
+* [file](#file)
+* [files](#files)
+* [check](#check)
+* [radio](#radio)
+* [toggle](#toggle)
+* [list](#list)
+* [note](#tagNote)
+* [partial](#partial)
 
-<ul>
 
-<li><a href="#content">content</a>
-<li><a href="#attrId">#id</a>
-<li><a href="#mix">mix</a>
-<li><a href="#required">required</a>
-<li><a href="#hidden">hidden</a>
-<li><a href="#href">href</a>
-<li><a href="#title">title</a>
-<li><a href="#path">path</a>
-<li><a href="#max">max</a>
-<li><a href="#min">min</a>
-<li><a href="#len">len</a>
-<li><a href="#yes">yes</a>
-<li><a href="#no">no</a>
-<li><a href="#val">val</a>
-<li><a href="#attrNote">note</a>
 
-</ul>
+##[Attributes](#attributes)
 
-</td>
-</tr></table>
-
+* [content](#content)
+* [#id](#attrId)
+* [mix](#mix)
+* [required](#required)
+* [hidden](#hidden)
+* [href](#href)
+* [editable](#editable)
+* [title](#title)
+* [path](#path)
+* [max](#max)
+* [min](#min)
+* [len](#len)
+* [yes](#yes)
+* [no](#no)
+* [val](#val)
+* [note](#attrNote)
 
 
 -----------------------------------
-
 
 
 ##Features
@@ -87,7 +72,7 @@ Gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 
 The `#id`-tag can be used in three different ways.
 By using it as a standalone tag it returns the values the linked elements evaluate to. For example if you have an `{{input #name}}`-tag at one place in your code, you can insert the value of the element at an other place in your code using `{{#name}}`.
-The `#id''-tag can also be used as a wrapper. The first thing the wrapper does is to decide whether the wrapped content gets displayed or not. This depends on the values of the referenced elements. The wrapper iterates over all elements and decides for each element if it should be displayed or not. It only gets displayed when its value is not empty and is not a javascript falsy value. Inside the loop each item is available as the `el`-tag.
+The `#id`-tag can also be used as a wrapper. The first thing the wrapper does is to decide whether the wrapped content gets displayed or not. This depends on the values of the referenced elements. The wrapper iterates over all elements and decides for each element if it should be displayed or not. It only gets displayed when its value is not empty and is not a javascript falsy value. Inside the loop each item is available as the `el`-tag.
 
 Attributes: [`mix`](#mix)
 
@@ -126,7 +111,7 @@ Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hid
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
 If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can also define the displayed text and the title inside the menu.
 
-Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`href`](#href), [`title`](#title)
+Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`href`](#href), [`editable`](#editable), [`title`](#title)
 
 
 
@@ -171,7 +156,7 @@ By using the tag as wrapper e.g. `{{check: []}}placeholder{{/check}}` clicking t
 The `check`-tag needs an array of options which is specified like `{{check: ['option1', 'option2']}}`.
 Using the `optn`-tag only makes sense with a defined ID otherwise the options are unreachable.
 
-Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#attrNote), [`content`](#content), [`yes`](#yes), [`no`](#no), [`all`](#all)
+Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`](#max), [`min`](#min), [`len`](#len), [`yes`](#yes), [`no`](#no), [`note`](#attrNote)
 
 
 
@@ -181,7 +166,7 @@ Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`]
 Works in the same way `check` does with the different that only one option can be selected.
 `{{radio: ['cookie', 'coke']}}`. Unless `val` is defined the first option is by default selected.
 
-Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#attrNote), [`val`](#val), [`all`](#all)
+Attributes: [`content`](#content), [`mix`](#mix), [`hidden`](#hidden), [`val`](#val), [`note`](#attrNote)
 
 
 
@@ -190,7 +175,7 @@ Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#attrNote), [`val`](#va
 
 `{{toggle #name}}` does the same as `{{radio: [true, false] #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
-Attributes: [`mix`](#mix), [`hidden`](#hidden), [`note`](#attrNote), [`val`](#val)
+Attributes: [`mix`](#mix), [`hidden`](#hidden), [`val`](#val), [`note`](#attrNote)
 
 
 
@@ -256,7 +241,7 @@ Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [
 <a name="mix" />
 ##`mix:`
 
-Using the `mix`-attribute you can specify a function. Gofer searchs for the specified function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
+Using the `mix`-attribute you can specify a function. gofer searchs for the specified function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
 The element-object the function gets called with differs from element to element, but every element-object contains an attributes-hash called `attr` and the DOM-element representing it as `el`.
 For additional tag-specific properties have a look at the tags.
 
@@ -298,6 +283,14 @@ The `href`-property sets the html-href-attribute. You can predefine it but it st
 
 Tags: [`link`](#link)
 
+
+
+<a name="editable" />
+##`editable`
+
+Setting `editable` only makes sence when the `link`-tag is wrapping some content. In this case the functionality which allows the user to edit the link's content is disabled, but if you want to use some sort of placeholder, you can set `editable` to allow the user to change the content also in this szenario.
+
+Tags: [`link`](#link)
 
 
 <a name="path" />
@@ -366,6 +359,19 @@ Tags: [`radio`](#radio) , [`toggle`](#toggle)
 <a name="attrNote" />
 ##`note:`
 
-Create a `note`-element which describes the given element. Use it like `{{input note: 'Enter your name here'}}`. Since this note is related to an element Gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
+Create a `note`-element which describes the given element. Use it like `{{input note: 'Enter your name here'}}`. Since this note is related to an element gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
 
 Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
+
+
+
+-------------------------------
+
+
+
+<a name="jqueryPlugin" />
+#`jQuery.gofer`
+
+Because gofer is a jQuery-fan he has his own jQuery-plugin, too.
+You can search for gofer-elements with `gofer('id')`.
+But if you only want a specific range of all the elements with a given id you can find them with `$('#container').gofer('id')` which returns only the gofer-elements where the DOM-element is a children of the given selector.
