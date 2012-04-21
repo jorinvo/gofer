@@ -41,6 +41,7 @@ gofer helps you to build a WYSIWYG-backend for your clients so that they can edi
 * [no](#no)
 * [val](#val)
 * [note](#attrNote)
+* [data](#data)
 
 
 -----------------------------------
@@ -109,9 +110,9 @@ Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hid
 ##Link: `{{link}}`
 
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
-If you don't use the link-tag as a wrapper like `{{link}}May Message{{/link}}` you can also define the displayed text and the title inside the menu.
+If you don't use the link-tag as a wrapper like `{{link}}My Message{{/link}}` you can also define the displayed text and the title inside the menu.
 
-Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`href`](#href), [`editable`](#editable), [`title`](#title)
+Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`href`](#href), [`title`](#title)
 
 
 
@@ -149,11 +150,11 @@ Attributes: [`mix`](#mix), [`required`](#required), [`path`](#path), [`note`](#a
 
 
 <a name="check" />
-##Checkboxes: `{{check:}}`
+##Checkboxes: `{{check()}}`
 
 With the `check`-tag the user can select between diffrent options the programmer can use to customize the page.
-By using the tag as wrapper e.g. `{{check: []}}placeholder{{/check}}` clicking the placeholder element will show the option-menu.
-The `check`-tag needs an array of options which is specified like `{{check: ['option1', 'option2']}}`.
+By using the tag as wrapper e.g. `{{ check() }}placeholder{{/check}}` clicking the placeholder element will show the option-menu.
+The `check`-tag needs an array of options which is specified like `{{ check('option1', 'option2') }}`.
 Using the `optn`-tag only makes sense with a defined ID otherwise the options are unreachable.
 
 Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`max`](#max), [`min`](#min), [`len`](#len), [`yes`](#yes), [`no`](#no), [`note`](#attrNote)
@@ -161,10 +162,10 @@ Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hid
 
 
 <a name="radio" />
-##Radiobuttons: `{{radio:}}`
+##Radiobuttons: `{{radio()}}`
 
 Works in the same way `check` does with the different that only one option can be selected.
-`{{radio: ['cookie', 'coke']}}`. Unless `val` is defined the first option is by default selected.
+`{{radio('cookie', 'coke') }}`. Unless `val` is defined the first option is by default selected.
 
 Attributes: [`content`](#content), [`mix`](#mix), [`hidden`](#hidden), [`val`](#val), [`note`](#attrNote)
 
@@ -173,7 +174,7 @@ Attributes: [`content`](#content), [`mix`](#mix), [`hidden`](#hidden), [`val`](#
 <a name="toggle" />
 ##Toggle: `{{toggle}}`
 
-`{{toggle #name}}` does the same as `{{radio: [true, false] #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
+`{{toggle #name}}` does the same as `{{radio(true, false) #name}}`with the different that it can be used without it to achieve the same as you would by writing `{{toggle #uid}} {{#uid}}blah blah{{/uid}}{{/toggle}}`.
 
 Attributes: [`mix`](#mix), [`hidden`](#hidden), [`val`](#val), [`note`](#attrNote)
 
@@ -186,7 +187,7 @@ Make a list of items.
 You can add new items to the list and reorder them via drag & drop.
 
 * Define a template inline: `{{list}}template goes here{{/list}}`
-* Use a file as template: `{{list path(./path/to/file.html)}}`
+* Use a file as template: `{{ list(./path/to/template.gofer) }}`
 
 Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#attrNote)
 
@@ -203,7 +204,7 @@ Notes are only visible in editing-mode. They can be used to display instructions
 <a name="partial" />
 ##Partial: `{{partial}}`
 
-Include an other file using: `{{partial: path/to/component.html}}`
+Include an other file using: `{{ partial(path/to/component.html) }}`
 
 
 
@@ -221,7 +222,6 @@ Include an other file using: `{{partial: path/to/component.html}}`
 
 The content-attribute contains a `STRING` of content which gets rendered in the DOM. This attribute differs from the other attributes since it is only available in mix-mode.
 For `input`, `text`, `link` and `list` the `content`-attribute belongs to the content wrapped between two tags.
-For the `link`-tag the content is only editable when the [`editable`-attribute](#editable) is enabled.
 The content of `list` is read-only.
 And for `check` and `radio` it references to a hash of all options and their `BOOLEAN`-values.
 
@@ -268,7 +268,7 @@ Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [
 
 
 <a name="title" />
-##`title:`
+##`title()`
 
 The `title`-property sets the html-title-attribute and in the case of an `<img>`-tag  it also will be used for the `alt`-attribute. You can predefine it but it stays editable for the user.
 
@@ -277,7 +277,7 @@ Tags: [`link`](#link), [`img`](#img)
 
 
 <a name="href" />
-##`href:`
+##`href()`
 
 The `href`-property sets the html-href-attribute. You can predefine it but it stays editable for the user.
 
@@ -285,20 +285,12 @@ Tags: [`link`](#link)
 
 
 
-<a name="editable" />
-##`editable`
-
-Setting `editable` only makes sence when the `link`-tag is wrapping some content. In this case the functionality which allows the user to edit the link's content is disabled, but if you want to use some sort of placeholder, you can set `editable` to allow the user to change the content also in this szenario.
-
-Tags: [`link`](#link)
-
-
 <a name="path" />
 ##`path()`
 
 Specify a path the given file should be or is located at on your server.
 
-Tags: [`img`](#img), [`file`](#file), [`files`](#files), ['list'](#list)
+Tags: [`img`](#img), [`file`](#file), [`files`](#files)
 
 
 
@@ -332,7 +324,7 @@ Tags: [`check`](#check), [`list`](#list)
 <a name="yes" />
 ##`yes()`
 
-`yes` returns all selected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] yes('orange') }}.
+`yes` returns all selected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check('apple', 'orange', banana') yes('orange') }}.
 
 Tags: [`check`](#check)
 
@@ -341,7 +333,7 @@ Tags: [`check`](#check)
 <a name="no" />
 ##`no()`
 
-`no` returns all unselected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] no('apple', 'banana') }}.
+`no` returns all unselected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check('apple', 'orange', banana') no('apple', 'banana') }}.
 
 Tags: [`check`](#check)
 
@@ -360,6 +352,15 @@ Tags: [`radio`](#radio) , [`toggle`](#toggle)
 ##`note()`
 
 Create a `note`-element which describes the given element. Use it like `{{input note(Enter your name here) }}`. Since this note is related to an element gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
+
+Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
+
+
+
+<a name="data" />
+##`data()`
+
+Gofer can create a template file with data-attributes for you if you want to change the template without breaking the existing data-mapping of gofer.
 
 Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
 

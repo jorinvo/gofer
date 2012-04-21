@@ -60,7 +60,7 @@ require(['jquery', 'text!../ariane.gofer', 'underscore'], function($, file) {
 
       log(_.filter(gofer, function(el, i) {
         return i % 2 !== 0;
-      })[0].content);
+      }));
     });
   }
 );
