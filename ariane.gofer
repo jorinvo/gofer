@@ -1,24 +1,36 @@
+{{input #gallery required hidden class="" placeholder="i love u!" id="adi" note(Gallery Titel hier eingeben) max()}}
+{{list:./gallery.html}}
+{{list:
+
+ ./gallery.html}}
 <div id="container">
 
   <div id="head">
     <img src="img/start.jpg" alt="ARIANE KOCH -Bilder+Objekte" width="1017px">
   </div>
+
   <nav id="nav">
     <ul>
       <li>
         <a href="#head"><img src="img/home.png" alt=""></a>
+      </li>
       {{#gallery}}
       <li>
-        <a href="#{{el mix(normalize)}}">{{el}}</a>a>
+        {{el mix(link) }}
+      </li>
       {{/gallery}}
       <li>
         <a href="#vita">Vita</a>
+      </li>
       <li>
         <a href="#news">News</a>
+      </li>
       <li>
         <a href="#contact">Kontakt</a>
+      </li>
       <li>
         <a href="#links">Links</a>
+      </li>
     </ul>
   </nav>
 
@@ -57,7 +69,7 @@
     </div>
     {{img mix(bigImg) hidden required}}
       {{img mix(smallImg) required class="smallImg"}}
-    {{/file}}
+    {{/img}}
   </div>
   {{/list}}
   <p class="stripes-text">{{input}}</p>

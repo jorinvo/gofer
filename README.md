@@ -186,7 +186,7 @@ Make a list of items.
 You can add new items to the list and reorder them via drag & drop.
 
 * Define a template inline: `{{list}}template goes here{{/list}}`
-* Use a file as template: `{{list path: ./path/to/file.html}}`
+* Use a file as template: `{{list path(./path/to/file.html)}}`
 
 Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`path`](#path), [`max`](#max), [`min`](#min), [`len`](#len), [`note`](#attrNote)
 
@@ -239,7 +239,7 @@ Tags: [`#`](#identifier), [`input`](#input), [`text`](#text), [`link`](#link), [
 
 
 <a name="mix" />
-##`mix:`
+##`mix()`
 
 Using the `mix`-attribute you can specify a function. gofer searchs for the specified function in the context of your helper-files. When the function exists it gets called with the element as argument and the element's value will be set to the return-value of the function-call.
 The element-object the function gets called with differs from element to element, but every element-object contains an attributes-hash called `attr` and the DOM-element representing it as `el`.
@@ -294,7 +294,7 @@ Tags: [`link`](#link)
 
 
 <a name="path" />
-##`path:`
+##`path()`
 
 Specify a path the given file should be or is located at on your server.
 
@@ -303,7 +303,7 @@ Tags: [`img`](#img), [`file`](#file), [`files`](#files), ['list'](#list)
 
 
 <a name="max" />
-##`max:`
+##`max()`
 
 Define a maximum required size the user has to create or select.
 
@@ -312,7 +312,7 @@ Tags: [`check`](#check), [`list`](#list)
 
 
 <a name="min" />
-##`min:`
+##`min()`
 
 Define a minimum required size the user has to create or select.
 
@@ -321,34 +321,34 @@ Tags: [`check`](#check), [`list`](#list)
 
 
 <a name="len" />
-##`len:`
+##`len()`
 
-Define the required size the user has to create or select. Is a shortcode for setting `max` and `min` to the same value. Use it e.g. `{{list len: 3}}`.  In javascript-mode `len` is read-only and returns the current length of the element.
+Define the required size the user has to create or select. Is a shortcode for setting `max` and `min` to the same value. Use it e.g. `{{list len(3) }}`.  In javascript-mode `len` is read-only and returns the current length of the element.
 
 Tags: [`check`](#check), [`list`](#list)
 
 
 
 <a name="yes" />
-##`yes:`
+##`yes()`
 
-`yes` returns all selected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] yes: ['orange']}}.
+`yes` returns all selected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] yes('orange') }}.
 
 Tags: [`check`](#check)
 
 
 
 <a name="no" />
-##`no:`
+##`no()`
 
-`no` returns all unselected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] no: ['apple', 'banana']}}.
+`no` returns all unselected values. It's a shortcode for filtering the values by yourself. Keep attention when you use it as a setter because you can only set ether `yes` or `no`, never both of them. When using it as a setter use it like `{{check: ['apple', 'orange', banana'] no('apple', 'banana') }}.
 
 Tags: [`check`](#check)
 
 
 
 <a name="val" />
-##`val:`
+##`val()`
 
 With `val` you can specify the preselected value of the element. In the case of `toggle` it is only `true` or `false`. In read-mode `val` returns the selected value.
 
@@ -357,9 +357,9 @@ Tags: [`radio`](#radio) , [`toggle`](#toggle)
 
 
 <a name="attrNote" />
-##`note:`
+##`note()`
 
-Create a `note`-element which describes the given element. Use it like `{{input note: 'Enter your name here'}}`. Since this note is related to an element gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
+Create a `note`-element which describes the given element. Use it like `{{input note(Enter your name here) }}`. Since this note is related to an element gofer can tell you more about what you are doing e.g. telling you which required fields you left empty.
 
 Tags: [`input`](#input), [`text`](#text), [`img`](#img), [`file`](#file), [`files`](#files), [`opt`](#opt), [`toggle`](#toggle), [`list`](#list)
 
