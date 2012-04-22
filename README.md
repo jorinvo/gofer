@@ -93,7 +93,7 @@ Attributes: [`mix`](#mix)
 
 The user can input text here e.g. `<h1>{{input}}</h1>` and the plain-text is returned. Because of this you have to wrap it into some tags (e.g. `<h1>`).
 
-Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#attrNote)
+Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`note`](#attrNote)
 
 
 
@@ -221,7 +221,7 @@ Include an other file using: `{{ partial(path/to/component.html) }}`
 ##`}}content{{`
 
 The content-attribute contains a `STRING` of content which gets rendered in the DOM. This attribute differs from the other attributes since it is only available in mix-mode.
-For `input`, `text`, `link` and `list` the `content`-attribute belongs to the content wrapped between two tags.
+For `link` and `list` the `content`-attribute belongs to the content wrapped between two tags.
 The content of `list` is read-only.
 And for `check` and `radio` it references to a hash of all options and their `BOOLEAN`-values.
 
