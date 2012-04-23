@@ -1,15 +1,18 @@
-define(['src/value'], function(value) {
-  describe('value()', function() {
-    var test = value('test it');
+define(['src/gofer'], function(gofer) {
+  describe('value', function() {
+    var test = gofer.value('test it');
+
     it('takes a start-value', function(done) {
       test().should.equal('test it');
       done();
     })
+
     it('updates the value', function(done) {
       test('test me too').should.equal('test me too');
       done();
     });
-    describe('modify()', function() {
+
+    describe('modify', function() {
       function first (val) { return val[0]; }
       function upper (val) { return val.toUpperCase(); }
       it('runs the value truth the modifiers', function(done) {
@@ -28,7 +31,8 @@ define(['src/value'], function(value) {
         done();
       })
     });
-    describe('subscribe()', function() {
+
+    describe('subscribe', function() {
       function setter (val) { testField = val; }
       var testField;
       it('notifies subscribers', function(done) {
@@ -49,6 +53,6 @@ define(['src/value'], function(value) {
         done();
       });
     });
-  });
 
+  });
 });

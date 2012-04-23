@@ -1,23 +1,21 @@
+#id
+text
+link
+img
+file
+files
+check
+radio
+toggle
 list
-* lexer
-* parser
-* generation/evaluation
-  ->
 
+gofer(id)
 
-hook()
-  *
-
-init()
-
-orgiginal template
-tag(val, htmlAttributes, attributes[](val), content)
-  front
-  back
-  dom-ready
-
-
-
-mode()
+data-attribute
 
 template()
+
+dataUrl:
+postUrl:
+updateTemplateUrl:
+

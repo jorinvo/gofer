@@ -1,0 +1,5 @@
+<h1>Breaking News!!</h1>
+{{note}}
+  <p>Gofer conquered the DOM!</p>
+{{/note}}
+{{input note(what do you think?)}}

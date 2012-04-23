@@ -11,7 +11,12 @@ require(['chai', 'mocha', 'libs/log'], function(chai) {
   chai.should();
   window.expect = chai.expect;
   mocha.setup('bdd');
-  require(['test/gofer', 'test/helpers', 'test/value'], function() {
+  var hash = window.location.hash.slice(1)
+
+    , all = 'gofer value helpers lexer parser mode'
+
+    , files = hash === 'all' ? _.map(all.split(' '), function(el) { return 'test/' + el; }) : ['test/'+hash];
+  require(files, function() {
     mocha
       .run()
     });

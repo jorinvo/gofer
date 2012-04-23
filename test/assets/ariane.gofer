@@ -1,4 +1,3 @@
-{{input #gallery required hidden class="" placeholder="i love u!" id="adi" note(Gallery Titel hier eingeben) max()}}
 <div id="container">
 
   <div id="head">
