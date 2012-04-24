@@ -1,4 +1,4 @@
-define(['src/gofer'], function(gofer) {
+define(function() {
   describe('value', function() {
     var test = gofer.value('test it');
 

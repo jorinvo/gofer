@@ -1,4 +1,4 @@
-define(['src/gofer', 'src/tags'], function(gofer) {
+define(function() {
   describe('lexer', function() {
 
     it('supports closing-tags', function(done) {
@@ -8,7 +8,7 @@ define(['src/gofer', 'src/tags'], function(gofer) {
       test[1].temp.should.equal('note');
       test[1].object.should.be.instanceOf(gofer.tags.note);
       test[2].should.equal('a note');
-      test[3].should.have.keys(['tagName', 'temp', 'isClosingTag']);
+      test[3].should.have.keys(['name', 'temp', 'isClosingTag']);
       test[3].isClosingTag.should.be.true;
       test[4].should.equal('');
 

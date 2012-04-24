@@ -75,9 +75,6 @@ The `#id`-tag can be used in three different ways.
 By using it as a standalone tag it returns the values the linked elements evaluate to. For example if you have an `{{input #name}}`-tag at one place in your code, you can insert the value of the element at an other place in your code using `{{#name}}`.
 The `#id`-tag can also be used as a wrapper. The first thing the wrapper does is to decide whether the wrapped content gets displayed or not. This depends on the values of the referenced elements. The wrapper iterates over all elements and decides for each element if it should be displayed or not. It only gets displayed when its value is not empty and is not a javascript falsy value. Inside the loop each item is available as the `el`-tag.
 
-Attributes: [`mix`](#mix)
-
-
 
 <a name="el" />
 ##Loop-Element: `{{el}}`

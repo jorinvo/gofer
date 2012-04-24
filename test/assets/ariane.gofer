@@ -44,7 +44,7 @@
   {{list}}
   <article id="{{@gallery mix(normalize)}}">
     {{input #gallery required hidden note(Gallery Titel hier eingeben)}}
-    {{list}}k
+    {{list}}
     <div class="imgFrame">
       <div class="bigImg">
         <img src="" alt="">

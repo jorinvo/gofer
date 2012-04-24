@@ -1,5 +1,4 @@
-define(['src/gofer'], function(gofer) {
-
+(function($, _, undefined) {
 
 
   Input = function(args) {
@@ -61,4 +60,5 @@ define(['src/gofer'], function(gofer) {
     note: Note
   });
 
-});
+
+})(jQuery, _);

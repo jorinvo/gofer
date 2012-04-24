@@ -1,0 +1,19 @@
+{{input #name}}
+
+{{#name}}
+
+
+{{input #names}}
+{{input #names}}
+{{input #names}}
+
+{{#names}}
+  {{el}}
+{{/names}}
+
+
+{{input #ok}}
+
+{{#ok}}
+  OK!
+{{/ok}}

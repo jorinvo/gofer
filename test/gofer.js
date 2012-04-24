@@ -1,4 +1,4 @@
-define(['src/gofer', 'src/tags'], function(gofer) {
+define(function() {
   describe('gofer', function(){
 
 
@@ -13,16 +13,14 @@ define(['src/gofer', 'src/tags'], function(gofer) {
       it('accepts an options-hash', function(done) {
         gofer({
           container: '#gofer-container',
-          template: 'test/assets/file.gofer'
+          template: 'assets/file.gofer'
         });
         done();
       });
 
       it('adds content to the specified container', function(done) {
-        gofer.hook('domReady', function() {
-          $('#gofer-container').children().length.should.be.above(0);
-          done();
-        });
+        $('#gofer-container').children().length.should.be.above(0);
+        done();
       });
 
     });

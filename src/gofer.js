@@ -1,26 +1,23 @@
-define([
-  ], function() {
+(function(window, $, _, undefined) {
 
 
 
   function gofer(args) {
 
     if ( typeof args === 'string' ) {
-      log('implement find by #ID here...');
+      console.log('implement find by #ID here...');
     } else if( $.isPlainObject(args) ) {
-      gofer.settings = _.defaults( args, gofer.settings );
-      gofer.init();
+      _settings = _.defaults( args, gofer.settings() );
+      init();
     } else if ( !args ) {
-      gofer.init();
+      init();
     } else {
       throw new Error('invalid arguments');
     }
 
-  };
+  }
 
-
-
-  gofer.settings = {
+  var _settings = {
     template: './index.gofer',
     dataUrl: '/goferData',
     postUrl: '/',
@@ -29,10 +26,15 @@ define([
     mode: 'edit'
   };
 
+  gofer.settings = function() {
+    return _settings;
+  };
 
-  gofer.init = function() {
-    require(['text!'+gofer.settings.template], function(template) {
-      gofer.tree = gofer.lexer(template);
+  var _tree;
+
+  function init() {
+    $.get(gofer.settings().template, function(template) {
+      _tree = _lexer(template);
 
       gofer.hook('domReady', function() {
         $('#gofer-submit').click(function(e) {
@@ -46,14 +48,14 @@ define([
 
 
   gofer.render = function() {
-    var mode = gofer.settings.mode
-      , footer = ( mode === 'edit' ?
-        '<input type="submit" id="gofer-submit">' : '' )
-      ;
+    var mode = gofer.settings().mode;
 
-    $(gofer.settings.container).html(
-      gofer.parser( gofer.tree.slice(), mode ) +
-      footer
+    $(gofer.settings().container).html(
+
+      ( mode === 'edit' ? gofer.slugs.header() : '' ) +
+      _parser( _tree.slice(), mode ) +
+      ( mode === 'edit' ? gofer.slugs.footer() : '' )
+
     ).promise().done(function() {
       gofer.hook('domReady');
     });
@@ -66,19 +68,26 @@ define([
       console.log("Invalid mode.\nValid modes: 'edit', 'view'");
       return;
     }
-    log(( gofer.settings.mode === 'edit' ? 'view' : 'edit' ))
-    gofer.settings.mode = ( gofer.settings.mode === 'edit' ? 'view' : 'edit' );
+    _settings.mode = ( gofer.settings().mode === 'edit' ? 'view' : 'edit' );
     gofer.render();
   };
 
 
 
-  gofer.tags = {};
+  gofer.generateOutput = function(input) {
+    var output = $('html').clone();
+    output.find(gofer.settings().container).html(input);
+    return output.html();
+  };
 
-  gofer.registerTags = function(tags) {
-    _.each(tags, function(v, k) {
-      if ( !_.has(gofer.tags, k) ) {
-        gofer.tags[k] = v;
+
+
+  var _tags = {};
+
+  gofer.registerTags = function(newTags) {
+    _.each(newTags, function(v, k) {
+      if ( !_.has(_tags, k) ) {
+        _tags[k] = v;
       }
     });
   };
@@ -107,7 +116,7 @@ define([
     }
 
     return club;
-  };
+  }
 
 
 
@@ -132,16 +141,15 @@ define([
 
     function value(val) {
       if (val) {
-        _.each(modifiers, function(m) {
-          val = m(val);
-        });
         data = val;
         _.each(subscribers, function(s) {
           s(data);
         });
       }
-      return data;
-    };
+      return _.reduce(modifiers, function(memo, modifier) {
+        return modifier(memo);
+      }, data);
+    }
 
     _.extend(value, {
       modify: function(modifier) {
@@ -173,7 +181,12 @@ define([
 
 
 
-  gofer.lexer = function(template) {
+  gofer.slugs = {
+    header: gofer.value(''),
+    footer: gofer.value('<input type="submit" id="gofer-submit">')
+  };
+
+  _lexer = function(template) {
 
     return _.map( template.split(/\{\{|\}\}/), function(el, i) {
       if (i % 2 !== 0) {
@@ -181,6 +194,7 @@ define([
           , args = {}
           , attributes = tag.temp.match(/\S+\(.*?\)|\S+=".*?"|\S+/g)
           , closingTag
+          , id
         ;
         tag.name = attributes.shift();
         var hasParam = tag.name.match(/(.+?)\((.*?)\)/);
@@ -190,6 +204,15 @@ define([
 
           tag.isClosingTag = true;
           tag.name = closingTag[1];
+
+          return tag;
+        }
+
+        if ( id = tag.name.match(/#(.+)/) ) {
+
+          tag.isId = true;
+          tag.name = id[1];
+          tag.object = new Id(tag.name);
 
           return tag;
         }
@@ -214,7 +237,7 @@ define([
           }
         });
 
-        tag.object = new gofer.tags[tag.name](args);
+        tag.object = new _tags[tag.name](args);
 
         return tag;
 
@@ -227,8 +250,9 @@ define([
 
 
 
-  gofer.parser = function(tree, method) {
+  _parser = function(tree, method) {
 
+    gofer.hook('parser');
     gofer.hook(method);
 
     function parser(openTag, content) {
@@ -255,8 +279,14 @@ define([
   };
 
 
+  //add data-attributes
+  gofer.getTemplate = function() {
+    return _.reduce(_tree, function(temp, node) {
+      return temp + ( _.isString(node) ? node : '{{' + node.temp + '}}' );
+    }, '');
+  };
+
 
   window.gofer = gofer;
 
-  return gofer;
-});
+})(window, jQuery, _);

@@ -1,4 +1,4 @@
-define(['src/gofer'], function(gofer) {
+define(function() {
 
 describe('helpers', function() {
       var myFunc = function() {};
