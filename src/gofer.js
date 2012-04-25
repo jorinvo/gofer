@@ -36,7 +36,7 @@
     $.get(gofer.settings().template, function(template) {
       _tree = _lexer(template);
 
-      gofer.hook('domReady', function() {
+      gofer.hook('dom', function() {
         $('#gofer-submit').click(function(e) {
           gofer.mode();
         });
@@ -57,7 +57,7 @@
       ( mode === 'edit' ? gofer.slugs.footer() : '' )
 
     ).promise().done(function() {
-      gofer.hook('domReady');
+      gofer.hook('dom');
     });
   };
 
@@ -142,13 +142,22 @@
     function value(val) {
       if (val) {
         data = val;
-        _.each(subscribers, function(s) {
-          s(data);
-        });
+        trigger();
       }
+      return getData();
+    }
+
+    function getData() {
       return _.reduce(modifiers, function(memo, modifier) {
-        return modifier(memo);
+          return modifier(memo);
       }, data);
+    }
+
+    function trigger() {
+        var d = getData();
+        _.each(subscribers, function(s) {
+          s(d);
+        });
     }
 
     _.extend(value, {
@@ -157,7 +166,8 @@
       },
       subscribe: function(subscriber) {
         subscribers = manage(subscribers, subscriber);
-      }
+      },
+      trigger: trigger
     });
 
     return value;
@@ -165,18 +175,19 @@
 
 
 
-  var helpersCache = {};
 
   gofer.helpers = function(args) {
     if ( $.isPlainObject(args) ) {
-      _.defaults(helpersCache, args);
+      _.defaults(gofer.helpers.cache, args);
     } else {
-      return helpersCache[args];
+      return gofer.helpers.cache[args];
     }
   };
 
+  gofer.helpers.cache = {};
+
   gofer.helpers.overwrite = function(args) {
-    _.extend(helpersCache, args);
+    _.extend(gofer.helpers.cache, args);
   };
 
 
@@ -186,7 +197,86 @@
     footer: gofer.value('<input type="submit" id="gofer-submit">')
   };
 
-  _lexer = function(template) {
+
+
+  function _Id(name) {
+    this.data = gofer.value();
+    _Id.subscribe(name, _.bind(this.data, this) );
+
+    this.id = gofer.id();
+
+    gofer.hook('dom', _.bind(function() {
+      this.data.subscribe(_.bind(function(data) {
+        $('#'+this.id).html( this.content() );
+      }, this) );
+    }, this) );
+
+  }
+
+  _.extend(_Id.prototype, {
+    edit: function(content) {
+      if (content) {
+        this.content = function() {
+          return _.reduceRight( this.data(), function(memo, val) {
+            return content.replace(/\{\{el\}\}/, val) + memo;
+          }, '');
+        };
+      } else {
+        this.content = function() {
+          return _.reduceRight( this.data(), function(memo, val) {
+            return val + memo;
+          }, '');
+        };
+      }
+      return '<div id="'+this.id+'">' + this.content() + '</div>';
+    },
+
+    view: function(content) {
+      return '';
+    }
+  });
+
+
+  _Id.cache = {};
+
+
+  _Id.subscribe = function(name, callback) {
+    _Id.cache[name] ? callback( _Id.cache[name]() ) : ( _Id.cache[name] = gofer.value([]) );
+    _Id.cache[name].subscribe(callback);
+  };
+
+
+  _Id.add = function(name, object) {
+    _Id.cache[name] || ( _Id.cache[name] = gofer.value([]) );
+    var position = _Id.cache[name]().push( object.data() ) - 1;
+    object.data.subscribe(function(data) {
+      var temporary = _Id.cache[name]();
+      temporary[position] = data;
+      _Id.cache[name](temporary);
+    });
+  };
+
+
+
+  function El() {}
+
+  _.extend(El.prototype, {
+    edit: function() {
+      return '{{el}}';
+    },
+
+    view: function() {
+      return '{{el}}';
+    }
+  });
+
+  gofer.registerTags({
+    el: El
+  });
+
+
+
+  function _lexer(template) {
 
     return _.map( template.split(/\{\{|\}\}/), function(el, i) {
       if (i % 2 !== 0) {
@@ -194,7 +284,7 @@
           , args = {}
           , attributes = tag.temp.match(/\S+\(.*?\)|\S+=".*?"|\S+/g)
           , closingTag
-          , id
+          , isId
         ;
         tag.name = attributes.shift();
         var hasParam = tag.name.match(/(.+?)\((.*?)\)/);
@@ -208,11 +298,11 @@
           return tag;
         }
 
-        if ( id = tag.name.match(/#(.+)/) ) {
+        if ( isId = tag.name.match(/#(.+)/) ) {
 
           tag.isId = true;
-          tag.name = id[1];
-          tag.object = new Id(tag.name);
+          tag.name = isId[1];
+          tag.object = new _Id(tag.name);
 
           return tag;
         }
@@ -223,12 +313,11 @@
         }
 
         args.htmlAttributes = '';
-
+        var hasId;
         _.each(attributes, function(attr) {
           var hasParam;
-          if ( /#.+/.test(attr) ) {
-
-          } else if ( hasParam = attr.match(/(.+?)\((.*?)\)/) ) {
+          if ( /#(.+)/.test(attr) ) return hasId = attr.match(/#(.+)/)[1];
+          if ( hasParam = attr.match(/(.+?)\((.*?)\)/) ) {
             args[ hasParam[1] ] = hasParam[2];
           } else if ( /.+?".*?"/.test(attr) ) {
             args.htmlAttributes += ' ' + attr;
@@ -238,6 +327,7 @@
         });
 
         tag.object = new _tags[tag.name](args);
+        if (hasId) _Id.add(hasId, tag.object);
 
         return tag;
 
@@ -246,11 +336,11 @@
       }
     });
 
-  };
+  }
 
 
 
-  _parser = function(tree, method) {
+  function _parser(tree, method) {
 
     gofer.hook('parser');
     gofer.hook(method);
@@ -268,7 +358,7 @@
           return parser() + el.object[method](content);
 
         } else {
-          return parser(openTag, content += _.isString(el) ? el : el.object[method]() );
+          return parser(openTag, (_.isString(el) ? el : el.object[method]()) + content );
         }
       }
 
@@ -276,7 +366,7 @@
     }
 
     return parser();
-  };
+  }
 
 
   //add data-attributes

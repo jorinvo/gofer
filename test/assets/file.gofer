@@ -3,3 +3,17 @@
   <p>Gofer conquered the DOM!</p>
 {{/note}}
 {{input note(what do you think?)}}
+<h2>#id:</h2>
+1: {{input #jorin hidden}}
+2: {{input #jorin hidden}}
+jorin:
+{{#jorin}}
+  hey:
+  {{el}}
+{{/jorin}}
+second
+<br>
+{{#jorin}}
+  hey:
+  {{el}}
+{{/jorin}}
