@@ -67,11 +67,19 @@
 
     this.id = _.uniqueId('gofer');
     this.buttonId = _.uniqueId('gofer');
-    this.data = gofer.value('');
+    this.hrefId = _.uniqueId('gofer');
+    this.data = gofer.value({});
+    this.text = gofer.value('');
+    this.text.subscribe(_.bind(function(text) {
+      this.data.update('text', text);
+    }, this) );
+    this.href = gofer.value();
+    this.href.subscribe(_.bind(function(href) {
+      this.data.update('href', href);
+    }, this) )(args.href);
     if (args.mix) this.data.modify( gofer.helpers(args.mix) );
     this.hidden = args.hidden;
     this.note = args.note;
-
     if (args.required) {
       gofer.hook( 'submit', _.bind(function() {
         //show a message on the DOM element here
@@ -81,14 +89,21 @@
 
     gofer.hook( 'dom', _.bind(function() {
       var $el = $('#'+this.id).keyup( _.bind(function() {
-        this.data( $el.val() );
+        this.text( $el.val() );
       }, this) );
+      var $hrefInput = $('#'+this.hrefId).keyup(_.bind(function() {
+        this.href( $hrefInput.val() );
+      }, this) );
+      $('#'+this.buttonId).click(function() {
+        $hrefInput.toggle();
+      });
     }, this) );
 
     gofer.template('link',
       '<% if(note) { %> <div class="gofer-note"><%= note %></div><% } %>' +
-      '<input type="text" <%= htmlAttributes %> >' +
-      '<input type="button" id="<%= buttonId %>">'
+      '<input type="text" id="<%= id %>" value="<%= text() %>" <%= htmlAttributes %> >' +
+      '<input type="button" id="<%= buttonId %>">' +
+      '<input type="text" id="<%= hrefId %>" value="<%= href() %>">'
     );
 
   }
@@ -99,7 +114,7 @@
     },
 
     view: function() {
-      return this.hidden ? '' : '<a href="" title="">' + content + '</a>';
+      return this.hidden ? '' : '<a href="' + this.href() + '" title="">' + this.text() + '</a>';
     }
   });
 

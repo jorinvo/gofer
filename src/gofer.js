@@ -153,11 +153,28 @@
     _.extend(value, {
       modify: function(modifier) {
         modifiers = manage(modifiers, modifier);
+        return this;
       },
       subscribe: function(subscriber) {
         subscribers = manage(subscribers, subscriber);
+        return this;
       },
-      trigger: trigger
+      trigger: function() {
+        trigger();
+        return this;
+      },
+      update: function(arg) {
+        if ( _.isArray(data) ) {
+          data = data.concat( _.isArray(arg) ? arg : Array.prototype.slice.call(arguments) );
+        } else if ( _.isObject(data) ) {
+          if ( !_.isUndefined(arguments[1]) ) data[ arguments[0] ] = arguments[1];
+          else _.isArray(arg) ? data[ arg[0] ] = arg[1] : _.extend(data, arg);
+        } else {
+          data += arg;
+        }
+        trigger();
+        return this;
+      }
     });
 
     return value;
