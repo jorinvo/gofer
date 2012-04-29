@@ -7,10 +7,10 @@
     if ( typeof args === 'string' ) {
       console.log('implement find by #ID here...');
     } else if( $.isPlainObject(args) ) {
-      _settings = _.defaults( args, gofer.settings() );
-      _init();
+      settings = _.defaults( args, gofer.settings() );
+      init();
     } else if ( !args ) {
-      _init();
+      init();
     } else {
       throw new Error('invalid arguments');
     }
@@ -19,7 +19,7 @@
 
 
 
-  var _settings = {
+  var settings = {
     template: './index.gofer',
     dataUrl: '/goferData',
     postUrl: '/',
@@ -29,14 +29,14 @@
   };
 
   gofer.settings = function() {
-    return _settings;
+    return settings;
   };
 
-  var _tree;
+  var lexerTree;
 
-  function _init() {
+  function init() {
     $.get(gofer.settings().template, function(template) {
-      _tree = _lexer(template);
+      lexerTree = lexer(template);
 
       gofer.hook('dom', function() {
         $('#gofer-submit').click(function(e) {
@@ -46,7 +46,7 @@
 
       gofer.render();
     });
-  };
+  }
 
 
   gofer.render = function() {
@@ -55,7 +55,7 @@
     $(gofer.settings().container).html(
 
       ( mode === 'edit' ? gofer.slugs.header() : '' ) +
-      _parser( _tree.slice(), mode ) +
+      parser( lexerTree.slice(), mode ) +
       ( mode === 'edit' ? gofer.slugs.footer() : '' )
 
     ).promise().done(function() {
@@ -70,7 +70,7 @@
       console.log("Invalid mode.\nValid modes: 'edit', 'view'");
       return;
     }
-    _settings.mode = ( gofer.settings().mode === 'edit' ? 'view' : 'edit' );
+    settings.mode = ( gofer.settings().mode === 'edit' ? 'view' : 'edit' );
     gofer.render();
   };
 
@@ -78,35 +78,25 @@
 
   gofer.generateOutput = function() {
     var output = $('html').clone();
-    output.find(gofer.settings().container).html( _parser(_tree.slice(), 'view') );
-    return output.html();
-  }
+    output.find(gofer.settings().container).html( parser(lexerTree.slice(), 'view') );
+    return output.html().replace(/<!--\s*?gofer\s*?-->[\s\S]*?(<!--\s*?\/\s*?gofer\s*?-->)/, '');
+  };
 
 
 
-  var _tags = {};
+  var tags = {};
 
   gofer.registerTags = function(newTags) {
     _.each(newTags, function(v, k) {
-      if ( !_.has(_tags, k) ) {
-        _tags[k] = v;
+      if ( !_.has(tags, k) ) {
+        tags[k] = v;
       }
     });
   };
 
-  var _idCounter = -1;
-
-  gofer.id = function() {
-    return 'gofer' + (++_idCounter);
-  };
-
-  gofer.id.last = function() {
-    return 'gofer' + _idCounter;
-  };
 
 
-
-  function _manage(club, member) {
+  function manage(club, member) {
 
     var removed = _.reject(club, function(m) {
       return m === member;
@@ -126,7 +116,7 @@
 
   gofer.hook = function(event, callback) {
     if (callback) {
-      hookCache[event] = hookCache[event] ? _manage( hookCache[event], callback ) : [callback];
+      hookCache[event] = hookCache[event] ? manage( hookCache[event], callback ) : [callback];
     } else {
       _.each(hookCache[event], function(subscriber) {
         subscriber(event);
@@ -142,7 +132,7 @@
       , subscribers = [];
 
     function value(val) {
-      if (val) {
+      if( !_.isUndefined(val) ) {
         data = val;
         trigger();
       }
@@ -150,9 +140,7 @@
     }
 
     function getData() {
-      return _.reduce(modifiers, function(memo, modifier) {
-          return modifier(memo);
-      }, data);
+      return _.compose.apply(this, modifiers)(data);
     }
 
     function trigger() {
@@ -164,10 +152,10 @@
 
     _.extend(value, {
       modify: function(modifier) {
-        modifiers = _manage(modifiers, modifier);
+        modifiers = manage(modifiers, modifier);
       },
       subscribe: function(subscriber) {
-        subscribers = _manage(subscribers, subscriber);
+        subscribers = manage(subscribers, subscriber);
       },
       trigger: trigger
     });
@@ -201,36 +189,37 @@
 
 
 
-  function _Id(name) {
+  function Id(name) {
     this.data = gofer.value();
-    _Id.subscribe(name, _.bind(this.data, this) );
+    Id.subscribe(name, _.bind(this.data, this) );
 
-    this.id = gofer.id();
+    this.id = _.uniqueId('gofer');
 
     gofer.hook('dom', _.bind(function() {
       this.data.subscribe(_.bind(function(data) {
-        $('#'+this.id).html( this.content() );
+        log('id')
+        $('.'+this.id).html( this.content() );
       }, this) );
     }, this) );
 
   }
 
-  _.extend(_Id.prototype, {
+  _.extend(Id.prototype, {
     edit: function(content) {
       if (content) {
         this.content = function() {
-          return _.reduceRight( this.data(), function(memo, val) {
-            return content.replace(/\{\{el\}\}/, val) + memo;
+          return _.reduce( this.data(), function(memo, val) {
+            return memo + content().replace(/\{\{el\}\}/, val);
           }, '');
         };
       } else {
         this.content = function() {
-          return _.reduceRight( this.data(), function(memo, val) {
-            return val + memo;
-          }, '');
+          return _.reduce( this.data(), function(memo, val) {
+            return memo + val;
+          }, '', this);
         };
       }
-      return '<div id="'+this.id+'">' + this.content() + '</div>';
+      return '<div class="'+this.id+'">' + this.content() + '</div>';
     },
 
     view: function(content) {
@@ -239,30 +228,30 @@
   });
 
 
-  _Id.cache = {};
+  Id.cache = {};
 
 
-  _Id.subscribe = function(name, callback) {
-    _Id.cache[name] ? callback( _Id.cache[name]() ) : ( _Id.cache[name] = gofer.value([]) );
-    _Id.cache[name].subscribe(callback);
+  Id.subscribe = function(name, callback) {
+    Id.cache[name] ? callback( Id.cache[name]() ) : ( Id.cache[name] = gofer.value([]) );
+    Id.cache[name].subscribe(callback);
   };
 
 
-  _Id.add = function(name, object) {
-    _Id.cache[name] || ( _Id.cache[name] = gofer.value([]) );
-    var position = _Id.cache[name]().push( object.data() ) - 1;
+  Id.add = function(name, object) {
+    Id.cache[name] || ( Id.cache[name] = gofer.value([]) );
+    var position = Id.cache[name]().push( object.data() ) - 1;
     object.data.subscribe(function(data) {
-      var temporary = _Id.cache[name]();
+      var temporary = Id.cache[name]();
       temporary[position] = data;
-      _Id.cache[name](temporary);
+      Id.cache[name](temporary);
     });
   };
 
 
 
-  function _El() {}
+  function El() {}
 
-  _.extend(_El.prototype, {
+  _.extend(El.prototype, {
     edit: function() {
       return '{{el}}';
     },
@@ -273,12 +262,12 @@
   });
 
   gofer.registerTags({
-    el: _El
+    el: El
   });
 
 
 
-  function _lexer(template) {
+  function lexer(template) {
 
     return _.map( template.split(/\{\{|\}\}/), function(el, i) {
       if (i % 2 !== 0) {
@@ -304,7 +293,7 @@
 
           tag.isId = true;
           tag.name = isId[1];
-          tag.object = new _Id(tag.name);
+          tag.object = new Id(tag.name);
 
           return tag;
         }
@@ -328,8 +317,8 @@
           }
         });
 
-        tag.object = new _tags[tag.name](args);
-        if (hasId) _Id.add(hasId, tag.object);
+        tag.object = new tags[tag.name](args);
+        if (hasId) Id.add(hasId, tag.object);
 
         return tag;
 
@@ -342,41 +331,76 @@
 
 
 
-  function _parser(tree, method) {
+  function parser(tree, method) {
 
     gofer.hook('parser');
     gofer.hook(method);
 
-    function parser(openTag, content) {
+    function loop(openTag, content) {
       var el = tree.pop();
 
       if (_.isUndefined(el)) return '';
 
-      if (el.isClosingTag) return parser(el.name, '');
+      if (el.isClosingTag) return loop(el.name, []);
 
       if (openTag) {
 
         if (openTag === el.name) {
-          return parser() + el.object[method](content);
+          return loop() + el.object[method](function() {
+            return _.reduce(content, function(memo, el) {
+             return memo + ( _.isString(el) ? el : el.object[method].call(el.object) );
+           }, '');
+          });
 
         } else {
-          return parser(openTag, (_.isString(el) ? el : el.object[method]()) + content );
+          content.unshift(el);
+          return loop(openTag, content );
         }
       }
 
-      return parser() + ( _.isString(el) ? el : el.object[method]() );
+      return loop() + ( _.isString(el) ? el : el.object[method]() );
     }
 
-    return parser();
+    return loop().replace('{\\{', '{{').replace('}\\}', '}}');
   }
 
 
   //add data-attributes
   gofer.getTemplate = function() {
-    return _.reduce(_tree, function(temp, node) {
+    return _.reduce(lexerTree, function(temp, node) {
       return temp + ( _.isString(node) ? node : '{{' + node.temp + '}}' );
     }, '');
   };
+
+
+
+  var templateCache = {};
+
+  gofer.template = function() {
+    var arg = arguments;
+
+    if ( $.isPlainObject(arg[0]) ) {
+      var hash = arg[0];
+      if ( _.isString( _.values(hash)[0] ) ) {
+        _.each(hash, function(val, key) {
+          hash[key] = _.template(val);
+        });
+        _.extend( templateCache, hash );
+        return;
+      } else {
+        _.each(hash, function(val, key) {
+          hash[key] = templateCache[key](val);
+        });
+        return hash;
+      }
+    }
+    if ( _.isObject(arg[1]) ) return templateCache[ arg[0] ]( arg[1] );
+    if ( _.isUndefined(arg[1]) ) return templateCache[ arg[0] ];
+    templateCache[ arg[0] ] = _.template( arg[1] );
+    if (arg[2]) return templateCache[ arg[0] ]( arg[2] );
+
+  };
+
 
 
   window.gofer = gofer;

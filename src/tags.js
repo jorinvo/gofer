@@ -2,8 +2,10 @@
 
 
   function Input(args) {
-    this.id = gofer.id();
+    this.id = _.uniqueId('gofer');
     this.data = gofer.value('');
+
+    this.data.modify(_.escape);
 
     this.dataOut = args.mix ? function() {
       return gofer.helpers(args.mix)( this.data() );
@@ -25,18 +27,18 @@
       }, this) );
     }, this) );
 
+    gofer.template('input',
+      '<% if(note) { %>  <label class="gofer"><%= note %></label><% } %>' +
+      '<input type="text" value="<%= data() %>" id="<%= id %>" class="gofer">'
+    );
   }
 
   _.extend(Input.prototype, {
     edit: function() {
-      var html =
-      ( this.note ? '<label class="gofer">'+this.note+'</label>' : '' ) +
-      '<input type="text" value="'+this.data()+'" id="'+this.id+'" class="gofer">';
-      return html;
+      return gofer.template('input', this);
     },
 
     view: function() {
-      log(this.dataOut())
       return this.hidden ? '' : this.dataOut();
     }
   });
@@ -48,7 +50,7 @@
 
   _.extend(Note.prototype, {
     edit: function(content) {
-      return content;
+      return content();
     },
 
     view: function() {
@@ -60,10 +62,11 @@
 
 
   function Link(args) {
-    title
-    href
 
-    this.id = gofer.id();
+    this. htmlAttributes = args.htmlAttributes;
+
+    this.id = _.uniqueId('gofer');
+    this.buttonId = _.uniqueId('gofer');
     this.data = gofer.value('');
     if (args.mix) this.data.modify( gofer.helpers(args.mix) );
     this.hidden = args.hidden;
@@ -82,14 +85,17 @@
       }, this) );
     }, this) );
 
+    gofer.template('link',
+      '<% if(note) { %> <div class="gofer-note"><%= note %></div><% } %>' +
+      '<input type="text" <%= htmlAttributes %> >' +
+      '<input type="button" id="<%= buttonId %>">'
+    );
 
   }
 
   _.extend(Link.prototype, {
     edit: function(content) {
-      var html = this.note ? ('<div class="gofer-note">' + this.note + '</div>') : '' +
-        '<input placeholder="Link">';
-      return html;
+      return gofer.template('link', this);
     },
 
     view: function() {

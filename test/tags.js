@@ -10,7 +10,7 @@ define(function() {
 
     it('{{note}}', function(done) {
       cb = function() {
-        $container.html().should.have.string('<p>this is my note</p>');
+        $container.html().should.be.string('<p>this is my note</p>');
         done();
       };
       gofer.hook('dom', cb);
@@ -21,7 +21,7 @@ define(function() {
     });
     it('{{input}}', function(done) {
       cb = function() {
-        $container.html().should.have.string(
+        $container.html().should.be.string(
           '<label class="gofer">my note</label>' +
           '<input type="text" value="" id="gofer0" class="gofer">'
         );
@@ -33,6 +33,19 @@ define(function() {
       gofer.hook('dom', cb);
       gofer({
         template: 'assets/input.html',
+        container: '#gofer-container'
+      });
+    });
+    it('{{link}}', function(done) {
+      cb = function() {
+        $container.html().should.be.string(
+          ''
+        );
+        done();
+      };
+      gofer.hook('dom', cb);
+      gofer({
+        template: 'assets/link.html',
         container: '#gofer-container'
       });
     });

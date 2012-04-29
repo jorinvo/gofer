@@ -107,9 +107,9 @@ Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hid
 ##Link: `{{link}}`
 
 Define a link with `{{link}}` and optional pass HTML-Attributes to it `{{link id="" class="" target=""}}`.
-If you don't use the link-tag as a wrapper like `{{link}}My Message{{/link}}` you can also define the displayed text and the title inside the menu.
+If you don't use the link-tag as a wrapper like `{{link}}My Message{{/link}}` you can also define the displayed text.
 
-Attributes: [`content`](#content), [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`href`](#href), [`title`](#title)
+Attributes: [`mix`](#mix), [`required`](#required), [`hidden`](#hidden), [`href`](#href)
 
 
 

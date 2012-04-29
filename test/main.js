@@ -11,7 +11,7 @@ require(['chai', 'mocha', 'libs/log'], function(chai) {
   chai.should();
   window.expect = chai.expect;
   mocha.setup('bdd');
-  var all = 'getTemplate helpers hook id mode registerTags render settings slugs value';
+  var all = 'getTemplate helpers hook mode registerTags render settings slugs template value';
   var files = window.location.hash.slice(1) ?
     ['test/' + window.location.hash.slice(1)] :
     _.map(all.split(' '), function(el) {

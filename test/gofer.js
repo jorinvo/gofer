@@ -12,7 +12,7 @@ define(function() {
       it('accepts an options-hash', function() {
         gofer({
           container: '#gofer-container',
-          template: 'assets/file.gofer'
+          template: 'assets/file.html'
         });
       });
 
