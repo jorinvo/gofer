@@ -1,55 +1,66 @@
 define(function() {
-  describe('value', function() {
-    var test = gofer.value('test it');
+  describe('.value(startValue)', function() {
+    var test;
 
-    it('takes a start-value', function(done) {
-      test().should.equal('test it');
-      done();
-    })
-
-    it('updates the value', function(done) {
-      test('test me too').should.equal('test me too');
-      done();
+    beforeEach(function() {
+      test = gofer.value('test it');
     });
 
-    describe('modify', function() {
+    it('takes a start-value', function() {
+      test().should.equal('test it');
+    });
+
+    it('updates the value', function() {
+      test('update value');
+      test().should.equal('update value');
+    });
+
+    it('returns the value', function() {
+      test('update value').should.equal('update value');
+    });
+
+    describe('.modify(function)', function() {
       function first (val) { return val[0]; }
       function upper (val) { return val.toUpperCase(); }
-      it('runs the value truth the modifiers', function(done) {
+
+      it('runs the value truth the modifiers', function() {
         test.modify(upper);
-        test('to upper').should.equal('TO UPPER');
-        done();
+        test().should.equal('TEST IT');
       });
-      it('accepts more than one modifier', function(done) {
+      it('accepts more than one modifier', function() {
         test.modify(first);
-        test('first').should.equal('F');
-        done();
-      });
-      it('removes modifiers', function(done) {
         test.modify(upper);
-        test('first').should.equal('f');
-        done();
+        test().should.equal('T');
+      });
+      it('removes modifiers', function() {
+        test.modify(upper);
+        test.modify(first);
+        test.modify(upper);
+        test().should.equal('t');
       })
     });
 
-    describe('subscribe', function() {
-      function setter (val) { testField = val; }
-      var testField;
+    describe('.subscribe(function)', function() {
+
       it('notifies subscribers', function(done) {
-        test.subscribe(setter);
-        var testVal = test('na');
-        testField.should.equal(testVal);
-        done();
+        test.subscribe(function() {
+          done();
+        });
+        test('change it');
       });
-      it('removes subscribers', function(done) {
+      it('removes subscribers', function() {
+        function setter (val) {
+          val.should.equal('test it');
+        }
         test.subscribe(setter);
-        test('ya');
-        testField.should.equal('n');
-        done();
+        test();
+        test.subscribe(setter);
+        test('not matching value');
       });
       it('accepts more than one subscribers', function(done) {
-        test.subscribe(function(val) { val.should.equal('v') });
-        test('val');
+        test.subscribe(function(val) { val.should.equal('new value') });
+        test.subscribe(function(val) { val.should.equal('new value') });
+        test('new value');
         done();
       });
     });

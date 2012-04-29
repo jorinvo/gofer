@@ -2,25 +2,22 @@ define(function() {
   describe('gofer', function(){
 
 
-    it('is AMD compatible', function(done) {
-      gofer.should.exist;
-      done();
+    it('is exposes a global window.gofer', function() {
+      window.gofer.should.exist;
     });
 
 
     describe('init', function(){
 
-      it('accepts an options-hash', function(done) {
+      it('accepts an options-hash', function() {
         gofer({
           container: '#gofer-container',
           template: 'assets/file.gofer'
         });
-        done();
       });
 
-      it('adds content to the specified container', function(done) {
+      it('adds content to the specified container', function() {
         $('#gofer-container').children().length.should.be.above(0);
-        done();
       });
 
     });

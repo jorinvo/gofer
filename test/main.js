@@ -11,8 +11,13 @@ require(['chai', 'mocha', 'libs/log'], function(chai) {
   chai.should();
   window.expect = chai.expect;
   mocha.setup('bdd');
-
-  require(['test/' + window.location.hash.slice(1)], function() {
+  var all = 'getTemplate helpers hook id mode registerTags render settings slugs value';
+  var files = window.location.hash.slice(1) ?
+    ['test/' + window.location.hash.slice(1)] :
+    _.map(all.split(' '), function(el) {
+    return 'test/' + el;
+    });
+  require(files, function() {
     mocha
       .run()
     });

@@ -1,21 +1,27 @@
 define(function() {
+  describe('.helpers(functionsHash || functionName)', function() {
+    var myFunc = function() {};
+    var myOtherFunc = function() {};
 
-describe('helpers', function() {
-      var myFunc = function() {};
-      it('add functions to helpers', function(done) {
-        gofer.helpers({ test: myFunc });
-        done();
-      });
-      it('returns the right function', function(done) {
-        gofer.helpers({ test: function() {} });
-        gofer.helpers('test').should.equal(myFunc);
-        done();
-      });
-      it('helpers.overwrite() overwrites existing functions', function(done) {
-        gofer.helpers.overwrite({ test: function() {} });
-        gofer.helpers('test').should.not.equal(myFunc);
-        done();
+    it('accepts a hash of functions', function() {
+      gofer.helpers({
+        test: myFunc,
+        test2: myOtherFunc
       });
     });
-
+    it('returns the right function', function() {
+      gofer.helpers('test2').should.equal(myOtherFunc);
+      gofer.helpers('test').should.equal(myFunc);
+    });
+    it("doesn't overwrite functions", function() {
+      gofer.helpers({ test: function() {} });
+      gofer.helpers('test').should.equal(myFunc);
+    });
+    describe('.overwrite(functionsHash)', function() {
+      it('can overwrite existing functions', function() {
+        gofer.helpers.overwrite({ test: myOtherFunc });
+        gofer.helpers('test').should.equal(myOtherFunc);
+      });
+    })
+  });
 });

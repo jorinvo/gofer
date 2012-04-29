@@ -4,7 +4,11 @@
   function Input(args) {
     this.id = gofer.id();
     this.data = gofer.value('');
-    if (args.mix) this.data.modify( gofer.helpers(args.mix) );
+
+    this.dataOut = args.mix ? function() {
+      return gofer.helpers(args.mix)( this.data() );
+    } : this.data;
+
     this.hidden = args.hidden;
     this.note = args.note;
 
@@ -32,7 +36,8 @@
     },
 
     view: function() {
-      return this.hidden ? '' : this.data();
+      log(this.dataOut())
+      return this.hidden ? '' : this.dataOut();
     }
   });
 
@@ -53,9 +58,51 @@
 
 
 
+
+  function Link(args) {
+    title
+    href
+
+    this.id = gofer.id();
+    this.data = gofer.value('');
+    if (args.mix) this.data.modify( gofer.helpers(args.mix) );
+    this.hidden = args.hidden;
+    this.note = args.note;
+
+    if (args.required) {
+      gofer.hook( 'submit', _.bind(function() {
+        //show a message on the DOM element here
+        return this.data() === '';
+      }, this) );
+    }
+
+    gofer.hook( 'dom', _.bind(function() {
+      var $el = $('#'+this.id).keyup( _.bind(function() {
+        this.data( $el.val() );
+      }, this) );
+    }, this) );
+
+
+  }
+
+  _.extend(Link.prototype, {
+    edit: function(content) {
+      var html = this.note ? ('<div class="gofer-note">' + this.note + '</div>') : '' +
+        '<input placeholder="Link">';
+      return html;
+    },
+
+    view: function() {
+      return this.hidden ? '' : '<a href="" title="">' + content + '</a>';
+    }
+  });
+
+
+
   gofer.registerTags({
     input: Input,
-    note: Note
+    note: Note,
+    link: Link
   });
 
 

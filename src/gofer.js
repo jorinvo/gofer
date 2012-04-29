@@ -8,14 +8,16 @@
       console.log('implement find by #ID here...');
     } else if( $.isPlainObject(args) ) {
       _settings = _.defaults( args, gofer.settings() );
-      init();
+      _init();
     } else if ( !args ) {
-      init();
+      _init();
     } else {
       throw new Error('invalid arguments');
     }
 
   }
+
+
 
   var _settings = {
     template: './index.gofer',
@@ -32,7 +34,7 @@
 
   var _tree;
 
-  function init() {
+  function _init() {
     $.get(gofer.settings().template, function(template) {
       _tree = _lexer(template);
 
@@ -74,11 +76,11 @@
 
 
 
-  gofer.generateOutput = function(input) {
+  gofer.generateOutput = function() {
     var output = $('html').clone();
-    output.find(gofer.settings().container).html(input);
+    output.find(gofer.settings().container).html( _parser(_tree.slice(), 'view') );
     return output.html();
-  };
+  }
 
 
 
@@ -92,19 +94,19 @@
     });
   };
 
-  var idCounter = -1;
+  var _idCounter = -1;
 
   gofer.id = function() {
-    return 'gofer' + (++idCounter);
+    return 'gofer' + (++_idCounter);
   };
 
   gofer.id.last = function() {
-    return 'gofer' + idCounter;
+    return 'gofer' + _idCounter;
   };
 
 
 
-  function manage(club, member) {
+  function _manage(club, member) {
 
     var removed = _.reject(club, function(m) {
       return m === member;
@@ -124,7 +126,7 @@
 
   gofer.hook = function(event, callback) {
     if (callback) {
-      hookCache[event] = hookCache[event] ? manage( hookCache[event], callback ) : [callback];
+      hookCache[event] = hookCache[event] ? _manage( hookCache[event], callback ) : [callback];
     } else {
       _.each(hookCache[event], function(subscriber) {
         subscriber(event);
@@ -162,10 +164,10 @@
 
     _.extend(value, {
       modify: function(modifier) {
-        modifiers = manage(modifiers, modifier);
+        modifiers = _manage(modifiers, modifier);
       },
       subscribe: function(subscriber) {
-        subscribers = manage(subscribers, subscriber);
+        subscribers = _manage(subscribers, subscriber);
       },
       trigger: trigger
     });
@@ -258,9 +260,9 @@
 
 
 
-  function El() {}
+  function _El() {}
 
-  _.extend(El.prototype, {
+  _.extend(_El.prototype, {
     edit: function() {
       return '{{el}}';
     },
@@ -271,7 +273,7 @@
   });
 
   gofer.registerTags({
-    el: El
+    el: _El
   });
 
 
