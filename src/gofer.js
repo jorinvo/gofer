@@ -32,7 +32,7 @@
     return settings;
   };
 
-  var lexerTree;
+
 
   function init() {
     $.get(gofer.settings().template, function(template) {
@@ -47,6 +47,7 @@
       gofer.render();
     });
   }
+
 
 
   gofer.render = function() {
@@ -163,14 +164,19 @@
         trigger();
         return this;
       },
-      update: function(arg) {
+      update: function(first) {
+        var args = arguments;
         if ( _.isArray(data) ) {
-          data = data.concat( _.isArray(arg) ? arg : Array.prototype.slice.call(arguments) );
+          if (args.length === 2 && ( _.isNumber(args[0]) || _.isNumber(parseInt(args[0], 10)) ) ) {
+            data[args[0]] = args[1];
+          } else {
+            data = data.concat( _.isArray(first) ? first : Array.prototype.slice.call(args) );
+          }
         } else if ( _.isObject(data) ) {
-          if ( !_.isUndefined(arguments[1]) ) data[ arguments[0] ] = arguments[1];
-          else _.isArray(arg) ? data[ arg[0] ] = arg[1] : _.extend(data, arg);
+          if ( !_.isUndefined(args[1]) ) data[ args[0] ] = args[1];
+          else _.isArray(first) ? data[ first[0] ] = first[1] : _.extend(data, first);
         } else {
-          data += arg;
+          data += first;
         }
         trigger();
         return this;
@@ -214,11 +220,11 @@
 
     gofer.hook('dom', _.bind(function() {
       this.data.subscribe(_.bind(function(data) {
-        log('id')
         $('.'+this.id).html( this.content() );
       }, this) );
     }, this) );
 
+    gofer.template('id', '<div class="<%= id %>"><%= content() %></div>');
   }
 
   _.extend(Id.prototype, {
@@ -236,11 +242,11 @@
           }, '', this);
         };
       }
-      return '<div class="'+this.id+'">' + this.content() + '</div>';
+      return gofer.template('id', this);
     },
 
     view: function(content) {
-      return '';
+      return this.content();
     }
   });
 
@@ -258,9 +264,7 @@
     Id.cache[name] || ( Id.cache[name] = gofer.value([]) );
     var position = Id.cache[name]().push( object.data() ) - 1;
     object.data.subscribe(function(data) {
-      var temporary = Id.cache[name]();
-      temporary[position] = data;
-      Id.cache[name](temporary);
+      Id.cache[name].update(position, data);
     });
   };
 
@@ -283,6 +287,8 @@
   });
 
 
+
+  var lexerTree;
 
   function lexer(template) {
 
@@ -394,10 +400,11 @@
   var templateCache = {};
 
   gofer.template = function() {
-    var arg = arguments;
+    var args = arguments;
 
-    if ( $.isPlainObject(arg[0]) ) {
-      var hash = arg[0];
+    if ( _.isUndefined(args[0]) ) return _.keys(templateCache);
+    if ( $.isPlainObject(args[0]) ) {
+      var hash = args[0];
       if ( _.isString( _.values(hash)[0] ) ) {
         _.each(hash, function(val, key) {
           hash[key] = _.template(val);
@@ -411,10 +418,10 @@
         return hash;
       }
     }
-    if ( _.isObject(arg[1]) ) return templateCache[ arg[0] ]( arg[1] );
-    if ( _.isUndefined(arg[1]) ) return templateCache[ arg[0] ];
-    templateCache[ arg[0] ] = _.template( arg[1] );
-    if (arg[2]) return templateCache[ arg[0] ]( arg[2] );
+    if ( _.isObject(args[1]) ) return templateCache[ args[0] ]( args[1] );
+    if ( _.isUndefined(args[1]) ) return templateCache[ args[0] ];
+    templateCache[ args[0] ] = _.template( args[1] );
+    if (args[2]) return templateCache[ args[0] ]( args[2] );
 
   };
 

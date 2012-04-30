@@ -120,10 +120,52 @@
 
 
 
+  function Img(args){
+    this.hidden = args.hidden;
+    this.data = ({});
+    this.src = gofer.value('');
+    this.src.subscribe(_.bind(function(src) {
+      this.data.update('src', src);
+    }, this) );
+    this.title = gofer.value();
+    this.title.subscribe(_.bind(function(title) {
+      this.data.update('title', title);
+    }, this) )(args.title);
+
+    if (args.mix) this.data.modify( gofer.helpers(args.mix) );
+    this.note = args.note;
+    if (args.required) {
+      gofer.hook( 'submit', _.bind(function() {
+        //show a message on the DOM element here
+        return this.data() === '';
+      }, this) );
+    }
+
+    gofer.template('img',
+      '<% if(note) { %><div class="gofer-note"><%= note %></div><% } %>' +
+      '<input type="file">'
+    );
+
+
+  }
+
+  _.extend(Img.prototype, {
+    edit: function(content) {
+      return gofer.template('img', this);
+    },
+
+    view: function() {
+      return this.hidden ? '' : '<img src="'+this.src()+'">';
+    }
+  });
+
+
+
   gofer.registerTags({
     input: Input,
     note: Note,
-    link: Link
+    link: Link,
+    img: Img
   });
 
 

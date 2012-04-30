@@ -34,5 +34,13 @@ define(function() {
       gofer.template('test', '<%= word %>', { word: 'cool' }).should.equal('cool');
       gofer.template('test', { word: 'even better' }).should.equal('even better');
     });
+    it('returns a list of all cached templates', function() {
+      gofer.template({
+        test: 'word: <%= word %>',
+        test1: 'name: <%= name %>',
+        test2: 'adress: <%= adress %>'
+      });
+      gofer.template().should.have.length(3);
+    });
   });
 });

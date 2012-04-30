@@ -84,8 +84,15 @@ define(function() {
         test([1]);
         test.update(2)().should.have.length(2);
         test([1]);
-        log(test.update(2, 3)());
-        test().should.have.length(3);
+        test.update(2, 3, 4)().should.have.length(4);
+      });
+      it('updates array elements', function() {
+        test([1, 2, 3]);
+        test.update(1, 4)().should.have.length(3);
+        test()[1].should.equal(4);
+        test([1, 2, 3]);
+        test.update('1', 4)().should.have.length(3);
+        test()[1].should.equal(4);
       });
       it('extends objects', function() {
         test({a: 1});
