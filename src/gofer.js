@@ -1,15 +1,12 @@
 require.config({
   paths: {
-    jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min',
-    // jquery: '../libs/jquery'
-    underscore: 'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min'
-    // underscore: '../libs/underscore'
+    jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min'
   },
   baseUrl: '../src'
 });
 
 require(
-['jquery', 'lexer', 'parser', 'template', 'value', 'hook', 'helpers', 'tags', 'tags/index', 'underscore'],
+['jquery', 'lexer', 'parser', 'template', 'value', 'hook', 'helpers', 'tags', 'tags/index', '../libs/json2'],
 function($, lexer, parser, template, value, hook, helpers, tags) {
 
 
@@ -20,8 +17,10 @@ function($, lexer, parser, template, value, hook, helpers, tags) {
     } else if( $.isPlainObject(args) ) {
       settings = _.defaults( args, gofer.settings() );
       init();
+      return gofer;
     } else if ( !args ) {
       init();
+      return gofer;
     } else {
       throw new Error('invalid arguments');
     }
@@ -109,8 +108,8 @@ function($, lexer, parser, template, value, hook, helpers, tags) {
 
 
   gofer.slugs = {
-    header: value('<form method="post">'),
-    footer: value('<input type="submit" id="gofer-submit"></form>')
+    header: value(''),
+    footer: value('<input type="submit" id="gofer-submit">')
   };
 
 
@@ -122,8 +121,28 @@ function($, lexer, parser, template, value, hook, helpers, tags) {
     }, '');
   };
 
+  template('hidden-field', '<input type="hidden" name="<%= name %>" value="<%= value %>">');
+
+  function sendData() {
+
+    var fields = {};
+    _.each(Id.cache, function(val, key) {
+      data.fields[key] = val();
+    });
+
+    var data = {
+      output: gofer.generateOutput(),
+      template: gofer.getTemplate(),
+      fields: JSON.stringify(fields)
+    };
+
+    _.reduce(data, function(res, val, key) {
+      return template('hidden-field', {name: key, value: val });
+    }, '');
+  }
 
 
-  window.gofer = gofer;
+
+  window.gofer = gofer(window.gofer);
 
 });

@@ -1,13 +1,12 @@
 {
 
-    "baseUrl": "../src",
+    "baseUrl": "src",
 
 
-    "dir": "..",
+    "dir": "build",
 
     "paths": {
-        "jquery": "empty:",
-        "underscore": "empty:"
+        "jquery": "empty:"
     },
 
     "optimize": "uglify",

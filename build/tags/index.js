@@ -1,0 +1,1 @@
+define(["tags","tags/input","tags/note","tags/img","tags/link"],function(a,b,c,d,e){a.register({input:b,note:c,link:e,img:d})})

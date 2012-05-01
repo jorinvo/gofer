@@ -1,0 +1,1 @@
+define([],function(){var a={register:function(b){a.cache=_.defaults(a.cache,b)},cache:{}};return a})

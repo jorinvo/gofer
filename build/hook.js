@@ -1,0 +1,1 @@
+define(["manage"],function(a){function c(d,e){if(_.isFunction(e))return b[d]=b[d]?a(b[d],e):[e],c;var f=!0;return _.each(b[d],function(a){a(e)||(f=!1)}),f}var b={};return c})

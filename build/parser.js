@@ -1,0 +1,1 @@
+define([],function(){function a(a,b){function c(d,e){var f=a.pop();return _.isUndefined(f)?"":f.isClosingTag?c(f.name,[]):d?d===f.name?c()+f.object[b](function(){return _.reduce(e,function(a,c){return a+(_.isString(c)?c:c.object[b].call(c.object))},"")}):(e.unshift(f),c(d,e)):c()+(_.isString(f)?f:f.object[b]())}return c().replace("{\\{","{{").replace("}\\}","}}")}return a})

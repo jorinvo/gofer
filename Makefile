@@ -1,2 +1,2 @@
 default:
-	r.js -o build/config.js
+	r.js -o config.js
