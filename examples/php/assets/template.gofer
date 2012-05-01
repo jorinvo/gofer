@@ -1,0 +1,108 @@
+<div id="head">
+  <img src="img/start.jpg" alt="ARIANE KOCH -Bilder+Objekte" width="1017px">
+</div>
+
+<nav id="nav">
+  <ul>
+    <li>
+      <a href="#head"><img src="img/home.png" alt=""></a>
+    </li>
+    {{#gallery}}
+    <li>
+      {{el mix(link) }}
+    </li>
+    {{/gallery}}
+    <li>
+      <a href="#vita">Vita</a>
+    </li>
+    <li>
+      <a href="#news">News</a>
+    </li>
+    <li>
+      <a href="#contact">Kontakt</a>
+    </li>
+    <li>
+      <a href="#links">Links</a>
+    </li>
+  </ul>
+</nav>
+
+
+<!-- about -->
+<article id="about">
+  {{img}}
+  <p>{{text}}</p>
+  <br>
+  <span>{{input}}</span>
+  <div class="end"></div>
+</article>
+
+
+<!-- gallery -->
+{{list}}
+<article id="{{@gallery mix(normalize)}}">
+  {{input #gallery required hidden note(Gallery Titel hier eingeben)}}
+  {{list}}
+  <div class="imgFrame">
+    <div class="bigImg">
+      <img src="" alt="">
+    </div>
+    {{img mix(bigImg) hidden required}}
+      {{img mix(smallImg) required class="smallImg"}}
+    {{/img}}
+  </div>
+  {{/list}}
+  <p class="stripes-text">{{input}}</p>
+  <div class="end"></div>
+</article>
+{{/list}}
+
+
+<!-- vita -->
+<article id="vita">
+  {{list}}
+  <table>
+    <tr>
+      <th colspan="2">{{input}}</th>
+    </tr>
+    {{list}}
+    <tr>
+      <td>{{input}}</td>
+      <td>{{text}}</td>
+    </tr>
+    {{/list}}
+  </table>
+  {{/list}}
+</article>
+
+
+<!-- news -->
+<article id="news">
+  <div id="atilier-img">
+    <div>
+      <h1>T&auml;glich frische Kunst</h1>
+    </div>
+  </div>
+  <p>{{text}}</p>
+</article>
+
+
+<!-- links -->
+<div id="links">
+  {{list}}
+    {{toggle #under_construction}}
+      {{link target="_blank"}}
+        {{#under_construction}}
+        <div class="under-construction">Wird im Moment leider umgebaut</div>
+        {{/under_construction}}
+        {{img}}
+        {{input}}
+      {{/link}}
+    {{/toggle}}
+  {{/list}}
+</div>
+
+
+<p id="copy">
+  &copy; 2012 Ariane Koch | <a href="#impressum" id="impressumLink">Impressum</a>
+</p>

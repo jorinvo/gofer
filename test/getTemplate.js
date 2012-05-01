@@ -1,5 +1,3 @@
-define(function() {
-  describe('.getTemplate()', function() {
-
-  });
+define([], function() {
+  describe(".getTemplate()", function() {});
 });

@@ -1,5 +1,3 @@
-define(function() {
-  describe('.render()', function() {
-
-  });
+define([], function() {
+  describe("render()", function() {});
 });

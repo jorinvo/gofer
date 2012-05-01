@@ -1,5 +1,3 @@
-define(function() {
-  describe('.registerTags(tagsHash)', function() {
-
-  });
+define([], function() {
+  describe("registerTags(tagsHash)", function() {});
 });
