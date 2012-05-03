@@ -1,13 +1,8 @@
-require.config({
-  paths: {
-    jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min'
-  },
-  baseUrl: '../src'
-});
+require.config({ baseUrl: '../src' });
 
 require(
-['jquery', 'lexer', 'parser', 'template', 'value', 'hook', 'helpers', 'tags', 'tags/index', '../libs/json2'],
-function($, lexer, parser, template, value, hook, helpers, tags) {
+['lexer', 'parser', 'template', 'value', 'hook', 'helpers', 'tags', 'tags/index', '../libs/json2'],
+function(lexer, parser, template, value, hook, helpers, tags) {
 
 
   function gofer(args) {

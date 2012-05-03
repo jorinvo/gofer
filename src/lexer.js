@@ -1,4 +1,4 @@
-define(['jquery', 'id', 'tags'], function($, Id, tags) {
+define(['id', 'tags'], function(Id, tags) {
 
   function lexer(template) {
 

@@ -1,5 +1,5 @@
-define(['jquery', 'value', 'helpers', 'hook', 'template', 'loadImage'],
-function($, value, helpers, hook, template, loadImage) {
+define(['value', 'helpers', 'hook', 'template', 'loadImage'],
+function(value, helpers, hook, template, loadImage) {
 
 
   function Img(args){

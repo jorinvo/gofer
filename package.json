@@ -1,0 +1,33 @@
+{
+  "name": "gofer",
+  "description": "Easily build WYSIWYG-backends for your clients using gofer's DSL",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jorin-vogel/gofer",
+  "author": {
+    "name": "Jorin Vogel",
+    "email": "jorin.vogel@gmail.com",
+    "url": "http://jorin-vogel.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jorin-vogel/gofer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jorin-vogel/gofer/issues"
+  },
+  "licenses": [
+    {
+      "type": "unlicence",
+      "url": "http://unlicence.org/"
+    }
+  ],
+  "scripts": {
+    "test": "grunt test",
+    "build": "grunt build"
+  },
+  "devDependencies": {
+    "grunt": ">=0.3.8",
+    "grunt-mocha": "*",
+    "grunt-requirejs": "*"
+  }
+}

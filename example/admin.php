@@ -18,7 +18,9 @@ else:
 
     <!-- gofer -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script>
+      window.jQuery || document.write('<script src="assets/js/jquery.js"><\/script>');
       window._ || document.write('<script src="assets/js/underscore.js"><\/script>');
       gofer = {
         template: 'assets/template.html',

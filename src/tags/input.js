@@ -1,4 +1,4 @@
-define([ "jquery", "value", "helpers", "hook", "template" ], function($, value, helpers, hook, template) {
+define(["value", "helpers", "hook", "template"], function(value, helpers, hook, template) {
 
   function Input(args) {
     this.id = _.uniqueId('gofer');

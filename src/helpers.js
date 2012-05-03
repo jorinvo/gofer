@@ -1,4 +1,4 @@
-define([ "jquery" ], function($) {
+define(function() {
 
   function helpers(arg) {
     if (!$.isPlainObject(arg)) return cache[arg];

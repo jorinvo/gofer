@@ -1,1 +1,0 @@
-define(["jquery"],function(a){function b(b){if(!a.isPlainObject(b))return c[b];_.defaults(c,b)}var c={};return b.overwrite=function(a){_.extend(c,a)},b})

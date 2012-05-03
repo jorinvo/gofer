@@ -1,4 +1,4 @@
-define([ "jquery", "value", "template", "hook", "tags" ], function($, value, template, hook, tags) {
+define(["value", "template", "hook", "tags"], function(value, template, hook, tags) {
 
   function Id(name) {
 

@@ -1,5 +1,5 @@
-define(['jquery', 'value', 'helpers', 'hook', 'template'],
-function($, value, helpers, hook, template) {
+define(['value', 'helpers', 'hook', 'template'],
+function(value, helpers, hook, template) {
 
 
   function Link(args) {
