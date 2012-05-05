@@ -28,6 +28,7 @@
   "devDependencies": {
     "grunt": ">=0.3.8",
     "grunt-mocha": "*",
-    "grunt-requirejs": "*"
+    "growl": "*",
+    "grunt-requirejs": "0.1"
   }
 }

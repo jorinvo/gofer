@@ -1,8 +1,8 @@
 require.config({ baseUrl: '../src' });
 
 require(
-['lexer', 'parser', 'template', 'value', 'hook', 'helpers', 'tags', 'tags/index', '../libs/json2'],
-function(lexer, parser, template, value, hook, helpers, tags) {
+['lexer', 'parser', 'template', 'value', 'hook', 'helpers', 'id', 'tags', 'tags/index', '../libs/json2'],
+function(lexer, parser, template, value, hook, helpers, Id, tags) {
 
 
   function gofer(args) {
@@ -10,7 +10,7 @@ function(lexer, parser, template, value, hook, helpers, tags) {
     if ( typeof args === 'string' ) {
       console.log('implement find by #ID here...');
     } else if( $.isPlainObject(args) ) {
-      settings = _.defaults( args, gofer.settings() );
+      settings = _.defaults( args, settings );
       init();
       return gofer;
     } else if ( !args ) {
@@ -27,18 +27,21 @@ function(lexer, parser, template, value, hook, helpers, tags) {
     value: value,
     hook: hook,
     helpers: helpers,
-    registerTags: tags.register
+    registerTags: tags.register,
+    $container: null
   });
 
 
 
   var settings = {
-    template: './index.gofer',
-    dataUrl: '/goferData',
-    postUrl: '/',
-    updateTemplateUrl: false,
+    template: './template.html',
+    dataUrl: './goferData',
+    postUrl: '.',
     container: 'body',
-    mode: 'edit'
+    mode: 'edit',
+    uploadDir: 'uploads',
+    data: false,
+    success: false
   };
 
   gofer.settings = function() {
@@ -51,12 +54,28 @@ function(lexer, parser, template, value, hook, helpers, tags) {
 
 
   function init() {
-    $.get(gofer.settings().template, function(template) {
+
+    if (settings.success) {
+      gofer.slugs.header.modify(function(header) {
+        return '<div class="gofer-success">SUCCESS!</div>' + header;
+      });
+    }
+
+    if (settings.data) {
+      hook('dom', function() {
+        gofer.data(settings.data);
+      });
+    }
+
+    gofer.$container = $(settings.container);
+
+    $.get(settings.template, function(template) {
       lexerTree = lexer(template);
 
       hook('dom', function() {
         $('#gofer-submit').click(function(e) {
-          if( !hook('submit') ) e.preventDefault();
+          e.preventDefault();
+          gofer.submit();
         });
       });
 
@@ -67,28 +86,41 @@ function(lexer, parser, template, value, hook, helpers, tags) {
 
 
   gofer.render = function() {
-    var mode = gofer.settings().mode;
+    var mode = settings.mode;
 
-    var $gofer = $(gofer.settings().container);
-    $gofer.html(
+    gofer.$container.html(
 
       ( mode === 'edit' ? gofer.slugs.header() : '' ) +
       parser( lexerTree.slice(), mode ) +
       ( mode === 'edit' ? gofer.slugs.footer() : '' )
 
     ).promise().done(function() {
-      hook('dom', $gofer);
+      hook('dom', gofer.$container);
     });
   };
 
-
+  gofer.data = function(data) {
+    if (data) {
+      _.each(JSON.parse(data), function(values, name) {
+        _.each(values, function(value, position) {
+          Id.update(name, position, value);
+        });
+      });
+    } else {
+      var fields = {};
+      _.each(Id.cache, function(field, name) {
+        fields[name] = field.data();
+      });
+      return JSON.stringify(fields);
+    }
+  };
 
   gofer.mode = function(mode) {
     if ( mode && !(mode in ['edit', 'view']) ) {
       console.log("Invalid mode.\nValid modes: 'edit', 'view'");
       return;
     }
-    settings.mode = ( gofer.settings().mode === 'edit' ? 'view' : 'edit' );
+    settings.mode = ( settings.mode === 'edit' ? 'view' : 'edit' );
     gofer.render();
   };
 
@@ -96,15 +128,17 @@ function(lexer, parser, template, value, hook, helpers, tags) {
 
   gofer.generateOutput = function() {
     var output = $('html').clone();
-    output.find(gofer.settings().container).html( parser(lexerTree.slice(), 'view') );
-    return output.html().replace(/<!--\s*?gofer\s*?-->[\s\S]*?(<!--\s*?\/\s*?gofer\s*?-->)/, '');
+    output.find(settings.container).html( parser(lexerTree.slice(), 'view') );
+    return '<html>' +
+      output.html().replace(/<!--\s*?gofer\s*?-->[\s\S]*?(<!--\s*?\/\s*?gofer\s*?-->)/, '') +
+      '</html>';
   };
 
 
 
   gofer.slugs = {
-    header: value(''),
-    footer: value('<input type="submit" id="gofer-submit">')
+    header: value('<form id="gofer-form" method="post">'),
+    footer: value('<input type="submit" id="gofer-submit"></form>')
   };
 
 
@@ -116,25 +150,27 @@ function(lexer, parser, template, value, hook, helpers, tags) {
     }, '');
   };
 
-  template('hidden-field', '<input type="hidden" name="<%= name %>" value="<%= value %>">');
+  template('hidden-field', '<input type="hidden" name="<%- name %>" value="<%- value %>">');
 
-  function sendData() {
+  gofer.submit = function() {
+    if( hook('submit') ) {
 
-    var fields = {};
-    _.each(Id.cache, function(val, key) {
-      data.fields[key] = val();
-    });
+      var data = {
+        output: gofer.generateOutput(),
+        fields: gofer.data()
+      };
 
-    var data = {
-      output: gofer.generateOutput(),
-      template: gofer.getTemplate(),
-      fields: JSON.stringify(fields)
-    };
 
-    _.reduce(data, function(res, val, key) {
-      return template('hidden-field', {name: key, value: val });
-    }, '');
-  }
+      $('#gofer-form').append(
+        _.reduce(data, function(res, val, key) {
+          return res + template('hidden-field', {name: key, value: val });
+        }, '')
+      );
+
+      $('#gofer-form').submit();
+
+    }
+  };
 
 
 

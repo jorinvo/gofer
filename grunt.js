@@ -1,6 +1,5 @@
 module.exports = function(grunt) {
 
-  // Project configuration.
   grunt.initConfig({
     mocha: {
       index: ['test/index.html']
@@ -18,7 +17,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha');
   grunt.loadNpmTasks('grunt-requirejs');
 
-  // Default task.
   grunt.registerTask('build', 'requirejs');
   grunt.registerTask('test', 'mocha');
 

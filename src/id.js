@@ -10,13 +10,15 @@ define(["value", "template", "hook", "tags"], function(value, template, hook, ta
 
     hook("dom", _.bind(function() {
 
+      var $el = $("." + this.id).html(this.content());
+
       this.data.subscribe(_.bind(function() {
         $("." + this.id).html(this.content());
       }, this));
 
     }, this));
 
-    template("id", '<div class="<%= id %>"><%= content() %></div>');
+    template("id", '<div class="<%= id %>"></div>');
   }
 
   _.extend(Id.prototype, {
@@ -47,24 +49,55 @@ define(["value", "template", "hook", "tags"], function(value, template, hook, ta
 
   Id.cache = {};
 
+  var createCache = function(name) {
+    Id.cache[name] = {
+      data: function() {
+        return _.map(this.objects, function(object) {
+          return object();
+        }, this);
+      },
+      objects: [],
+      observers: []
+    };
+  };
+
+
   Id.subscribe = function(name, cb) {
 
-    Id.cache[name] ? cb(Id.cache[name]()) : Id.cache[name] = value([]);
+    Id.cache[name] ? cb(Id.cache[name].data()) : createCache(name);
 
-    Id.cache[name].subscribe(cb);
+    Id.cache[name].observers.push(cb);
+
   };
+
+
+  Id.trigger = function(name, position) {
+    var data = Id.cache[name].data();
+    _.each(Id.cache[name].observers, function(observer) {
+      observer(data, position);
+    });
+  };
+
 
   Id.add = function(name, el) {
 
-    Id.cache[name] || (Id.cache[name] = value([]));
+    Id.cache[name] || createCache(name);
 
-    var position = Id.cache[name]().push(el.data()) - 1;
+    var position = Id.cache[name].objects.push(el) - 1;
 
-    el.data.subscribe(function(data) {
-      Id.cache[name].update(position, data);
+    el.subscribe(function(data) {
+      Id.trigger(name, position);
     });
 
+    Id.trigger(name, position);
   };
+
+
+  Id.update = function(name, position, value) {
+    Id.cache[name].objects[position](value);
+    Id.trigger(name, position);
+  };
+
 
 
   function El() {}

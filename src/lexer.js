@@ -4,12 +4,10 @@ define(['id', 'tags'], function(Id, tags) {
 
     return _.map( template.split(/\{\{|\}\}/), function(el, i) {
       if (i % 2 !== 0) {
-        var tag = { temp: $.trim(el) }
-          , args = {}
-          , attributes = tag.temp.match(/\S+\(.*?\)|\S+=".*?"|\S+/g)
-          , closingTag
-          , isId
-        ;
+        var tag = { temp: $.trim(el) };
+        var args = {};
+        var attributes = tag.temp.match(/\S+\(.*?\)|\S+=".*?"|\S+/g);
+        var closingTag, isId;
         tag.name = attributes.shift();
         var hasParam = tag.name.match(/(.+?)\((.*?)\)/);
 
@@ -51,7 +49,7 @@ define(['id', 'tags'], function(Id, tags) {
         });
 
         tag.object = new tags.cache[tag.name](args);
-        if (hasId) Id.add(hasId, tag.object);
+        if (hasId) Id.add(hasId, tag.object.data);
 
         return tag;
 

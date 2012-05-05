@@ -2,7 +2,7 @@ define(["value", "helpers", "hook", "template"], function(value, helpers, hook, 
 
   function Input(args) {
     this.id = _.uniqueId('gofer');
-    this.data = value('');
+    this.data = value(args.data);
 
     this.data.modify(_.escape);
 
@@ -21,14 +21,22 @@ define(["value", "helpers", "hook", "template"], function(value, helpers, hook, 
     }
 
     hook( 'dom', _.bind(function() {
+
       var $el = $('#'+this.id).on('keyup', _.bind(function() {
         this.data( $el.val() );
       }, this) );
+
+      this.data.subscribe(function(data) {
+        $el.val(data);
+      });
+
+      $el.val(this.data());
+
     }, this) );
 
     template('input',
       '<% if(note) { %>  <label class="gofer"><%= note %></label><% } %>' +
-      '<input type="text" value="<%= data() %>" id="<%= id %>" class="gofer">'
+      '<input type="text" id="<%= id %>" class="gofer">'
     );
   }
 
