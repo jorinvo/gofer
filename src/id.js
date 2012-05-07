@@ -24,6 +24,7 @@ define(["value", "template", "hook", "tags"], function(value, template, hook, ta
   _.extend(Id.prototype, {
 
     edit: function(content) {
+
       if (content) {
         this.content = function() {
           return _.reduce(this.data(), function(memo, el) {
@@ -50,7 +51,9 @@ define(["value", "template", "hook", "tags"], function(value, template, hook, ta
   Id.cache = {};
 
   var createCache = function(name) {
+
     Id.cache[name] = {
+
       data: function() {
         return _.map(this.objects, function(object) {
           return object();
@@ -58,6 +61,7 @@ define(["value", "template", "hook", "tags"], function(value, template, hook, ta
       },
       objects: [],
       observers: []
+
     };
   };
 

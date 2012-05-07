@@ -35,8 +35,7 @@ function(lexer, parser, template, value, hook, helpers, Id, tags) {
 
   var settings = {
     template: './template.html',
-    dataUrl: './goferData',
-    postUrl: '.',
+    postUrl: '',
     container: 'body',
     mode: 'edit',
     uploadDir: 'uploads',
@@ -115,7 +114,7 @@ function(lexer, parser, template, value, hook, helpers, Id, tags) {
     }
   };
 
-  gofer.mode = function(mode) {
+  gofer.toggleMode = function(mode) {
     if ( mode && !(mode in ['edit', 'view']) ) {
       console.log("Invalid mode.\nValid modes: 'edit', 'view'");
       return;
@@ -130,14 +129,15 @@ function(lexer, parser, template, value, hook, helpers, Id, tags) {
     var output = $('html').clone();
     output.find(settings.container).html( parser(lexerTree.slice(), 'view') );
     return '<html>' +
-      output.html().replace(/<!--\s*?gofer\s*?-->[\s\S]*?(<!--\s*?\/\s*?gofer\s*?-->)/, '') +
-      '</html>';
+      output.html().replace(/<head>[\s\S]*?<!--\s*?gofer\s*?-->([\s\S]*?)(<!--\s*?\/\s*?gofer\s*?-->)[\s\S]*?<\/head>/,
+        '<head>$1<\/head>'
+      ) + '</html>';
   };
 
 
 
   gofer.slugs = {
-    header: value('<form id="gofer-form" method="post">'),
+    header: value('<form id="gofer-form" enctype="multipart/form-data" method="post" action="' + settings.postUrl + '">'),
     footer: value('<input type="submit" id="gofer-submit"></form>')
   };
 
@@ -157,7 +157,8 @@ function(lexer, parser, template, value, hook, helpers, Id, tags) {
 
       var data = {
         output: gofer.generateOutput(),
-        fields: gofer.data()
+        fields: gofer.data(),
+        uploadDir: settings.uploadDir
       };
 
 

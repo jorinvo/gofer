@@ -43,7 +43,9 @@ define([ "template" ], function(template) {
         test1: "name: <%= name %>",
         test2: "adress: <%= adress %>"
       });
-      template().should.have.length(3);
+      template().should.include('test');
+      template().should.include('test1');
+      template().should.include('test2');
     });
   });
 });

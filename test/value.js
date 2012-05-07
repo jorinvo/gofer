@@ -11,8 +11,8 @@ define([ "value" ], function(value) {
       test("update value");
       test().should.equal("update value");
     });
-    it("returns the value", function() {
-      test("update value").should.equal("update value");
+    it("returns the the object", function() {
+      test("update value")().should.equal("update value");
     });
     describe(".modify(function)", function() {
       function first(word) {

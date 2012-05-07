@@ -1,10 +1,10 @@
 define(["value", "helpers", "hook", "template"], function(value, helpers, hook, template) {
 
   function Input(args) {
-    this.id = _.uniqueId('gofer');
-    this.data = value(args.data);
 
-    this.data.modify(_.escape);
+    this.id = _.uniqueId('gofer');
+    this.data = value('')
+      .modify(_.escape);
 
     this.dataOut = args.mix ? function() {
       return helpers(args.mix)( this.data() );

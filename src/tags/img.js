@@ -3,21 +3,26 @@ function(value, helpers, hook, template, loadImage) {
 
 
   function Img(args){
+
     this.hidden = args.hidden;
-    this.data = value({});
+    this.note = args.note;
+    this.id = args.id;
+
     this.inputId = _.uniqueId('gofer');
     this.imgId = _.uniqueId('gofer');
-    this.src = value('');
-    this.src.subscribe(_.bind(function(src) {
-      this.data.update('src', src);
-    }, this) );
-    this.title = value();
-    this.title.subscribe(_.bind(function(title) {
-      this.data.update('title', title);
-    }, this) )(args.title);
+
+    this.data = value({})
+      .subscribe(_.bind(function(data) {
+        this.src(data.src);
+      }, this) );
+
+    this.src = value('')
+      .subscribe(_.bind(function(src) {
+        this.data.updateSilent('src', src);
+      }, this) );
 
     if (args.mix) this.data.modify( helpers(args.mix) );
-    this.note = args.note;
+
     if (args.required) {
       hook( 'submit', _.bind(function() {
         //show a message on the DOM element here
@@ -26,25 +31,36 @@ function(value, helpers, hook, template, loadImage) {
     }
 
     hook('dom', _.bind(function($gofer) {
+
       var $img = $('#'+this.imgId);
 
-      $gofer.on('change', '#'+this.inputId, function(e) {
-        loadImage(e.target.files[0], function(img) {
+      $gofer.on('change', '#'+this.inputId, _.bind(function(e) {
+        var file = e.target.files[0];
+        this.src( gofer.settings().uploadDir + '/' + this.id + file.name.match(/\..+$/)[0] );
+        loadImage(file, function(img) {
           $img.html(img);
         });
-      });
+      }, this) );
+
+      this.data.subscribe(_.bind(function() {
+        $img.html('<img src="' + this.src() + '">');
+      }, this) );
+
+      $img.html('<img src="' + this.src() + '">');
+
     }, this) );
 
     template('img',
       '<% if(note) { %><div class="gofer-note"><%= note %></div><% } %>' +
       '<div id="<%= imgId %>"></div>' +
-      '<input type="file" accept="image/*" id="<%= inputId %>">'
+      '<input type="file" name="<%= id %>" accept="image/*" id="<%= inputId %>">'
     );
 
 
   }
 
   _.extend(Img.prototype, {
+
     edit: function(content) {
       return template('img', this);
     },
@@ -52,6 +68,7 @@ function(value, helpers, hook, template, loadImage) {
     view: function() {
       return this.hidden ? '' : '<img src="'+this.src()+'">';
     }
+
   });
 
 

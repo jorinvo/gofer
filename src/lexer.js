@@ -48,6 +48,7 @@ define(['id', 'tags'], function(Id, tags) {
           }
         });
 
+        if (hasId) args.id = hasId;
         tag.object = new tags.cache[tag.name](args);
         if (hasId) Id.add(hasId, tag.object.data);
 

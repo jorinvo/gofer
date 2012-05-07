@@ -1,11 +1,19 @@
 <html><head>
-  <meta charset=\"utf-8\">
-
-
-  
-<script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"lexer\" src=\"../src/lexer.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"parser\" src=\"../src/parser.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"template\" src=\"../src/template.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"value\" src=\"../src/value.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"hook\" src=\"../src/hook.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"helpers\" src=\"../src/helpers.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"id\" src=\"../src/id.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"tags\" src=\"../src/tags.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"tags/index\" src=\"../src/tags/index.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"../libs/json2\" src=\"../src/../libs/json2.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"manage\" src=\"../src/manage.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"tags/input\" src=\"../src/tags/input.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"tags/note\" src=\"../src/tags/note.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"tags/img\" src=\"../src/tags/img.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"tags/link\" src=\"../src/tags/link.js\"></script><script type=\"text/javascript\" charset=\"utf-8\" async=\"\" data-requirecontext=\"_\" data-requiremodule=\"loadImage\" src=\"../src/loadImage.js\"></script></head>
+  <meta charset=utf-8>
+  </head>
 <body>
-  <div id=\"gofer-container\"><img src=\"\"></div>
+  <div id=gofer-container>No Homo
+
+<img src=uploads/pic.jpg>
+<img src=uploads/pic2.png>
+awesome!
+
+<span>your favorite site:</span>
+<a href=http://youporn.com/ title=>youporn</a>
+
+
+
+</div>
 
 
 
