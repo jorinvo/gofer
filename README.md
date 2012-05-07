@@ -1,3 +1,10 @@
+#IMPORTANT:
+
+Project is not working at all and this readme-file is more something like a roadmap than a documentation.
+
+
+-------------------------------
+
 #About gofer
 gofer helps you to build a WYSIWYG-backend for your clients so that they can edit the content of their website. gofer targets static one-page websites where a person without any programming knowledge should be able to change same parts of the page.
 
